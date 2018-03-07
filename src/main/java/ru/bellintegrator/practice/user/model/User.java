@@ -1,7 +1,62 @@
 package ru.bellintegrator.practice.user.model;
 
-/**
- * Created by Antony on 06.03.2018.
- */
+import javax.persistence.*;
+
+@Entity
+@Table(name = "User")
 public class User {
+
+    @Id
+    @Column(name = "login")
+    private String login;
+
+    @Version
+    private Integer version;
+
+    @Basic(optional = false)
+    @Column(name = "password")
+    private String password;
+
+    @Basic(optional = false)
+    @Column(name = "name")
+    private String name;
+
+    @Basic(optional = false)
+    @Column(name = "isActive")
+    private Boolean isActive;
+
+    @OneToOne(
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private Activation activation;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Boolean getUserActive() {
+        return isActive;
+    }
+
+    public void setUserActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
 }

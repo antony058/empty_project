@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.controller.impl;
+package ru.bellintegrator.practice.testdata.controller.impl;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.practice.controller.DummyController;
-import ru.bellintegrator.practice.service.DummyService;
-import ru.bellintegrator.practice.view.PersonView;
+import ru.bellintegrator.practice.testdata.controller.DummyController;
+import ru.bellintegrator.practice.testdata.service.DummyService;
+import ru.bellintegrator.practice.testdata.view.PersonView;
 
 import java.util.List;
 

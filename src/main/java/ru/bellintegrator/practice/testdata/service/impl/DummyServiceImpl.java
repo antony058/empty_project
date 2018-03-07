@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice.service.impl;
+package ru.bellintegrator.practice.testdata.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bellintegrator.practice.dao.PersonDAO;
-import ru.bellintegrator.practice.model.House;
-import ru.bellintegrator.practice.model.Person;
-import ru.bellintegrator.practice.service.DummyService;
-import ru.bellintegrator.practice.view.PersonView;
+import ru.bellintegrator.practice.testdata.dao.PersonDAO;
+import ru.bellintegrator.practice.testdata.model.Person;
+import ru.bellintegrator.practice.testdata.service.DummyService;
+import ru.bellintegrator.practice.testdata.view.PersonView;
 
 import java.util.List;
 import java.util.function.Function;

@@ -1,7 +1,7 @@
-package ru.bellintegrator.practice.controller;
+package ru.bellintegrator.practice.testdata.controller;
 
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.bellintegrator.practice.view.PersonView;
+import ru.bellintegrator.practice.testdata.view.PersonView;
 
 import java.util.List;
 

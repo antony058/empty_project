@@ -12,7 +12,7 @@ import java.sql.Date;
 public class Employee {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Basic(optional = false)

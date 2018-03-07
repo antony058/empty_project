@@ -11,7 +11,7 @@ import java.util.Set;
 public class Organization {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Basic(optional = false)

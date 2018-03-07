@@ -12,7 +12,7 @@ import java.util.Set;
 public class Office {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Basic(optional = false)

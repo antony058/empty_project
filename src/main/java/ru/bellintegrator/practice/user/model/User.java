@@ -59,4 +59,12 @@ public class User {
     public void setUserActive(Boolean isActive) {
         this.isActive = isActive;
     }
+
+    public Activation getActivation() {
+        return activation;
+    }
+
+    public void setActivation(Activation activation) {
+        this.activation = activation;
+    }
 }

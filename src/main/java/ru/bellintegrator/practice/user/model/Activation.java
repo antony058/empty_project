@@ -13,7 +13,7 @@ public class Activation {
     @Version
     private Integer version;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne(optional = false)
     @JoinColumn(name = "userLogin")
     private User user;
 

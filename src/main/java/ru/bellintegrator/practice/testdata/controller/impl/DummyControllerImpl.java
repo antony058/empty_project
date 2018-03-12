@@ -51,5 +51,4 @@ public class DummyControllerImpl implements DummyController {
     public List<PersonView> persons() {
         return dummyService.persons();
     }
-
 }

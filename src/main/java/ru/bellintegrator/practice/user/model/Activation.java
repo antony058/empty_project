@@ -10,11 +10,8 @@ public class Activation {
     @Column(name = "code")
     private String code;
 
-    @Version
-    private Integer version;
-
-    @OneToOne(optional = false)
-    @JoinColumn(name = "userLogin")
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_login")
     private User user;
 
     public String getCode() {

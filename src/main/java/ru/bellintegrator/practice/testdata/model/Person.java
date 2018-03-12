@@ -1,17 +1,9 @@
 package ru.bellintegrator.practice.testdata.model;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -47,19 +39,13 @@ public class Person {
     @Column(name = "age")
     private int age;
 
-    @ManyToMany(
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }
-    )
-    @JoinTable(
-            name = "Person_House",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "house_id")
+    @OneToMany(
+            mappedBy = "person",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
 
-    private Set<House> houses;
+    private List<House> houses;
 
     /**
      * Конструктор для hibernate
@@ -93,21 +79,21 @@ public class Person {
         this.age = age;
     }
 
-    public Set<House> getHouses() {
+    public List<House> getHouses() {
         if (houses == null) {
-            houses = new HashSet<>();
+            houses = new ArrayList<>();
         }
         return houses;
     }
 
     public void addHouse(House house) {
         getHouses().add(house);
-        house.getPersons().add(this);
+        house.setPerson(this);
     }
 
     public void removeHouse(House house) {
         getHouses().remove(house);
-        house.getPersons().remove(this);
+        house.setPerson(null);
     }
 
 }

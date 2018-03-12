@@ -1,12 +1,6 @@
 package ru.bellintegrator.practice.testdata.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,8 +28,9 @@ public class House {
     @Column(name = "address")
     private String address;
 
-    @ManyToMany(mappedBy = "houses")
-    private Set<Person> persons;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     public Long getId() {
         return id;
@@ -49,14 +44,11 @@ public class House {
         this.address = address;
     }
 
-    public Set<Person> getPersons() {
-        if (persons == null) {
-            persons = new HashSet<>();
-        }
-        return persons;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersons(Set<Person> persons) {
-        this.persons = persons;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }

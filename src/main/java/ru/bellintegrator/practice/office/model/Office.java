@@ -13,7 +13,7 @@ public class Office {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Basic(optional = false)
     @Column(name = "name")
@@ -28,17 +28,23 @@ public class Office {
     private String address;
 
     @Basic(optional = false)
-    @Column(name = "isActive")
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orgId")
+    @JoinColumn(name = "org_id")
     private Organization organization;
 
-    @OneToMany(
-            mappedBy = "office",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
+    @ManyToMany(
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            }
+    )
+    @JoinTable(
+            name = "Office_Employee",
+            joinColumns = @JoinColumn(name = "office_id"),
+            inverseJoinColumns = @JoinColumn(name = "employee_id")
     )
     private Set<Employee> employees;
 
@@ -90,11 +96,11 @@ public class Office {
 
     public void addEmployee(Employee employee) {
         getEmployees().add(employee);
-        employee.setOffice(this);
+        employee.getOffices().add(this);
     }
 
     public void removeEmployee(Employee employee) {
         getEmployees().remove(employee);
-        employee.setOffice(null);
+        employee.getOffices().remove(this);
     }
 }

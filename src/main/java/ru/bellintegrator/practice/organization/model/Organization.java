@@ -12,14 +12,14 @@ public class Organization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
 
     @Basic(optional = false)
-    @Column(name = "fullName")
+    @Column(name = "full_name")
     private String fullName;
 
     @Basic(optional = false)
@@ -39,7 +39,7 @@ public class Organization {
     private String phone;
 
     @Basic(optional = false)
-    @Column(name = "isActive")
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @OneToMany(
@@ -48,6 +48,10 @@ public class Organization {
             orphanRemoval = true
     )
     private Set<Office> offices;
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

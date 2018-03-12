@@ -6,6 +6,8 @@ import ru.bellintegrator.practice.office.model.Office;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Employee")
@@ -13,18 +15,21 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @Version
+    private Integer version;
 
     @Basic(optional = false)
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
     @Basic(optional = false)
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Basic(optional = false)
-    @Column(name = "middleName")
+    @Column(name = "middle_name")
     private String middleName;
 
     @Basic(optional = false)
@@ -36,27 +41,26 @@ public class Employee {
     private String phone;
 
     @Basic(optional = false)
-    @Column(name = "docNumber")
+    @Column(name = "doc_number")
     private String docNumber;
 
     @Basic(optional = false)
-    @Column(name = "docDate")
+    @Column(name = "doc_date")
     private Date docDate;
 
     @Basic(optional = false)
-    @Column(name = "isIdentified")
+    @Column(name = "is_identified")
     private Boolean isIdentified;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "officeId")
-    private Office office;
+    @ManyToMany(mappedBy = "employees")
+    private Set<Office> offices;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "docCode")
+    @JoinColumn(name = "doc_code")
     private DocType document;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "citizenshipCode")
+    @JoinColumn(name = "citizenship_code")
     private Country country;
 
     public String getFirstName() {
@@ -123,12 +127,11 @@ public class Employee {
         isIdentified = identified;
     }
 
-    public Office getOffice() {
-        return office;
-    }
+    public Set<Office> getOffices() {
+        if (offices == null)
+            return new HashSet<>();
 
-    public void setOffice(Office office) {
-        this.office = office;
+        return offices;
     }
 
     public DocType getDocument() {

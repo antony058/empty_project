@@ -10,9 +10,6 @@ public class User {
     @Column(name = "login")
     private String login;
 
-    @Version
-    private Integer version;
-
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
@@ -22,7 +19,7 @@ public class User {
     private String name;
 
     @Basic(optional = false)
-    @Column(name = "isActive")
+    @Column(name = "is_active")
     private Boolean isActive;
 
     @OneToOne(

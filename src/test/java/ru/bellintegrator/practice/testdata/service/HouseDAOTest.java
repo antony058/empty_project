@@ -31,33 +31,6 @@ public class HouseDAOTest {
 
     @Test
     public void test() {
-        House house = new House();
-        Set<Person> list = new HashSet<>();
-        house.setAddress("Address");
-        Person person = new Person("One", 1);
-        person.addHouse(house);
-        house.setPersons(list);
-        list.add(person);
-        houseDAO.save(house);
 
-        List<House> houses = houseDAO.all();
-        Assert.assertNotNull(houses);
-
-        person.addHouse(house);
-
-        Assert.assertFalse(houses.isEmpty());
-
-        Set<Person> persons = houses.get(1).getPersons();
-
-        Assert.assertNotNull(persons);
-        Assert.assertEquals(1, persons.size());
-
-        Person person1 = new Person("Two", 2);
-        list.add(person1);
-
-        houses = houseDAO.all();
-        persons = houses.get(1).getPersons();
-        Assert.assertNotNull(person);
-        Assert.assertEquals(1, persons.size());
     }
 }

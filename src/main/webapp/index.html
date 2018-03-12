@@ -18,6 +18,48 @@
         Name: <input type="text" id="name"><br>
         Age: <input type="text" id="age"><br>
         <button id="addPerson" class="btn btn-default btn-md">Save</button><br>
+        <br><br>
+        Name: <input type="text" id="orgName"><br>
+        inn: <input type="text" id="orgInn"><br>
+        isActive: <input type="checkbox" id="orgIsActive"><br>
+        <button id="getOrganizations" class="btn btn-default btn-md">Organization</button><br>
+
+        id: <input type="text" id="orgId"><br>
+        <button id="getOrganizationById" class="btn btn-default btn-md">Get by ID</button><br>
+
+    <script>
+        $(document).ready(function () {
+            $("#getOrganizations").click(function () {
+                var organizations = {
+                    name: $("#orgName").val(),
+                    inn: $("#orgInn").val()
+                };
+
+                $.ajax({
+                    url: "/api/organization/list",
+                    type: "POST",
+                    data: JSON.stringify(organizations),
+                    contentType:"application/json; charset=utf-8",
+                    success: function (data) {
+                        alert(JSON.stringify(data));
+                    }
+                });
+            });
+
+            $("#getOrganizationById").click(function () {
+                $.ajax({
+                    url: "/api/organization/" + $("#orgId").val(),
+                    type: "GET",
+                    contentType:"application/json; charset=utf-8",
+                    dataType:"json",
+                    success: function (data) {
+                        alert(JSON.stringify(data));
+                    }
+                });
+            });
+        });
+    </script>
+
 
     </body>
 </html>

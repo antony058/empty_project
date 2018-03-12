@@ -6,6 +6,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class UpdateOrganizationView {
+    /*
+    * Входная(Request) View для получения данных от пользователя,
+    * которые десиреализуются в этот класс
+    *
+    * Используется для запроса пользователя на изменение данных
+     */
+
     @ApiModelProperty(hidden = true)
     @NotEmpty
     @NotNull

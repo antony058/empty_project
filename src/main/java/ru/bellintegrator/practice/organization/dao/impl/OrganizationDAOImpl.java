@@ -31,7 +31,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class);
 
         Root<Organization> organization = criteria.from(Organization.class);
-        List<Predicate> predicates = new ArrayList<>();
+        List<Predicate> predicates = new ArrayList<>(); // список критериев поиска
 
         predicates.add(builder.like(organization.get("name"), "%" + name.trim() + "%"));
 

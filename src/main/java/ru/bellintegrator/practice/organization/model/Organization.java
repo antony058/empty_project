@@ -10,34 +10,64 @@ import java.util.Set;
 @Table(name = "Organization")
 public class Organization {
 
+    /*
+    * id
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /*
+    * Служебное поле Hibernate
+     */
+    @Version
+    private Integer version;
+
+    /*
+    * Имя
+     */
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
 
+    /*
+    * Полное имя
+     */
     @Basic(optional = false)
     @Column(name = "full_name")
     private String fullName;
 
+    /*
+    * ИНН
+     */
     @Basic(optional = false)
     @Column(name = "inn")
     private String inn;
 
+    /*
+    * КПП
+     */
     @Basic(optional = false)
     @Column(name = "kpp")
     private String kpp;
 
+    /*
+    * Адрес
+     */
     @Basic(optional = false)
     @Column(name = "address")
     private String address;
 
+    /*
+    * Телефон
+     */
     @Basic(optional = false)
     @Column(name = "phone")
     private String phone;
 
+    /*
+    * Активна ли организация
+     */
     @Basic(optional = false)
     @Column(name = "is_active")
     private Boolean isActive;

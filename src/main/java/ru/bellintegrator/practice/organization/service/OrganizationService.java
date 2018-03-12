@@ -9,11 +9,23 @@ import java.util.List;
 
 public interface OrganizationService {
 
+    /*
+    *
+     */
     ViewWrapper getAll(ListOrganizationView view);
 
+    /*
+    *
+     */
     ViewWrapper getOrganizationById(String id);
 
+    /*
+    *
+     */
     ViewWrapper updateOrganization(UpdateOrganizationView view);
 
+    /*
+    *
+     */
     ViewWrapper saveOrganization(OrganizationView view);
 }

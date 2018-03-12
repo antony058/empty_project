@@ -11,11 +11,28 @@ import ru.bellintegrator.practice.organization.view.UpdateOrganizationView;
 import javax.validation.Valid;
 
 public interface OrganizationController {
+
+    /*
+    * Получить все объекты Organization
+    * по входному JSON
+     */
     ViewWrapper getOrganizations(@Valid @RequestBody ListOrganizationView view, BindingResult bindingResult);
 
+    /*
+    * Получить Organization по id
+    *
+     */
     ViewWrapper getOrganizationById(@PathVariable String id);
 
+    /*
+    * Обновить Organization
+    * по входному JSON
+     */
     ViewWrapper updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult);
 
+    /*
+    * Сохранить Organization
+    *
+     */
     ViewWrapper saveOrganization(@RequestBody OrganizationView view);
 }

@@ -6,6 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class OrganizationView {
+    /*
+    * Выходная(Response) View для ответа пользователю
+    *
+    * Также используется как входная(Request) View для
+    * получения данных от пользователя
+     */
 
     @ApiModelProperty(hidden = true)
     @NotEmpty

@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS Organization (
     kpp VARCHAR(9),
     address VARCHAR(70),
     phone VARCHAR(12),
+    version INTEGER,
     is_active BOOLEAN NOT NULL
 );
 

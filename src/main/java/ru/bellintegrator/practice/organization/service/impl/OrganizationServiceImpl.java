@@ -45,7 +45,7 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .map(mapOrganization)
                 .collect(Collectors.toList());
 
-        return new ViewWrapper(orgViewsList);
+        return new ViewWrapper(orgViewsList); // упаковываем список в обертку
     }
 
     @Override
@@ -63,7 +63,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         view.phone = organization.getPhone();
         view.isActive = organization.getActive();
 
-        return new ViewWrapper(view);
+        return new ViewWrapper(view); // упаковываем объект в обертку
     }
 
     @Override
@@ -74,7 +74,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         ViewWrapper viewWrapper = new ViewWrapper();
         viewWrapper.setSuccess("success");
 
-        return viewWrapper;
+        return viewWrapper; // запись пользователю об успешном измении данных
     }
 
     @Override
@@ -85,6 +85,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         ViewWrapper viewWrapper = new ViewWrapper();
         viewWrapper.setSuccess("success");
 
-        return viewWrapper;
+        return viewWrapper; // запись пользователю об успешном сохранении организации
     }
 }

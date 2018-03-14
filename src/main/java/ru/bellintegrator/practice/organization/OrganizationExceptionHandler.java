@@ -1,8 +1,8 @@
 package ru.bellintegrator.practice.organization;
 
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.exception.NotValidParamRuntimeException;
-import ru.bellintegrator.practice.ViewWrapper;
 
 @ControllerAdvice
 @RestController
@@ -16,10 +16,10 @@ public class OrganizationExceptionHandler {
      */
     @ResponseBody
     @ExceptionHandler(value = NotValidParamRuntimeException.class)
-    public ViewWrapper handleBaseException(NotValidParamRuntimeException ex) {
-        ViewWrapper viewWrapper = new ViewWrapper();
-        viewWrapper.setError(ex.getMessage());
+    public ResponseView handleBaseException(NotValidParamRuntimeException ex) {
+        ResponseView responseView = new ResponseView();
+        responseView.setError(ex.getMessage());
 
-        return viewWrapper;
+        return responseView;
     }
 }

@@ -14,12 +14,12 @@ CREATE TABLE IF NOT EXISTS House (
 
 ALTER TABLE House ADD FOREIGN KEY (person_id) REFERENCES Person(id);
 
-CREATE TABLE IF NOT EXISTS Doc_types (
+CREATE TABLE IF NOT EXISTS Document (
     code INTEGER PRIMARY KEY,
     name VARCHAR(90) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS Countries (
+CREATE TABLE IF NOT EXISTS Country (
     code INTEGER PRIMARY KEY,
     name VARCHAR(30) NOT NULL
 );
@@ -62,9 +62,9 @@ CREATE INDEX IX_Organization_Name ON Organization (name);
 CREATE TABLE IF NOT EXISTS Office (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
-    phone VARCHAR(12) NOT NULL,
-    address  VARCHAR(70) NOT NULL,
-    is_active BOOLEAN NOT NULL,
+    phone VARCHAR(12),
+    address  VARCHAR(70),
+    is_active BOOLEAN,
     org_id INTEGER
 );
 
@@ -91,10 +91,10 @@ CREATE TABLE IF NOT EXISTS Employee (
 CREATE INDEX IX_Employee_Id ON Employee (id);
 
 CREATE INDEX IX_Employee_DocCode ON Employee (doc_code);
-ALTER TABLE Employee ADD FOREIGN KEY (doc_code) REFERENCES Doc_types(code);
+ALTER TABLE Employee ADD FOREIGN KEY (doc_code) REFERENCES Document(code);
 
 CREATE INDEX IX_Employee_CitizenshipCode ON Employee (citizenship_code);
-ALTER TABLE Employee ADD FOREIGN KEY (citizenship_code) REFERENCES Countries(code);
+ALTER TABLE Employee ADD FOREIGN KEY (citizenship_code) REFERENCES Country(code);
 
 CREATE TABLE IF NOT EXISTS Office_Employee (
     office_id INTEGER NOT NULL,

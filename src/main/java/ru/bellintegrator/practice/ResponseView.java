@@ -3,9 +3,9 @@ package ru.bellintegrator.practice;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ViewWrapper {
+public class ResponseView {
     /*
-    * Класс ViewWrapper используется в роли обертки для выходного View
+    * Класс ResponseView используется в роли обертки для выходного View
     * Перед отправкой пользователю объект этого класса будет сериализован в JSON
      */
 
@@ -19,11 +19,11 @@ public class ViewWrapper {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String error;
 
-    public ViewWrapper() {
+    public ResponseView() {
 
     }
 
-    public ViewWrapper(Object object) {
+    public ResponseView(Object object) {
         this.object = object;
     }
 

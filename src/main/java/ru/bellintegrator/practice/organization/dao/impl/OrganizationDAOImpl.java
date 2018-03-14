@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.organization.dao.OrganizationDAO;
 import ru.bellintegrator.practice.organization.model.Organization;
-import ru.bellintegrator.practice.organization.view.OrganizationView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -56,58 +55,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     }
 
     @Override
-    public void update(String id, String name, String fullName, String inn, String kpp,
-                          String address, String phone, Boolean isActive) {
-        Organization organization = em.find(Organization.class, Long.valueOf(id));
-
-        if (name != null && !name.isEmpty())
-            organization.setName(name);
-
-        if (fullName != null && !fullName.isEmpty())
-            organization.setFullName(fullName);
-
-        if (inn != null && !inn.isEmpty())
-            organization.setInn(inn);
-
-        if (kpp != null && !kpp.isEmpty())
-            organization.setKpp(kpp);
-
-        if (address != null && !address.isEmpty())
-            organization.setAddress(address);
-
-        if (phone != null && !phone.isEmpty())
-            organization.setPhone(phone);
-
-        if (isActive != null)
-            organization.setActive(isActive);
-    }
-
-    @Override
-    public void save(String name, String fullName, String inn, String kpp,
-                        String address, String phone, Boolean isActive) {
-        Organization organization = new Organization();
-
-        if (name != null && !name.isEmpty())
-            organization.setName(name);
-
-        if (fullName != null && !fullName.isEmpty())
-            organization.setFullName(fullName);
-
-        if (inn != null && !inn.isEmpty())
-            organization.setInn(inn);
-
-        if (kpp != null && !kpp.isEmpty())
-            organization.setKpp(kpp);
-
-        if (address != null && !address.isEmpty())
-            organization.setAddress(address);
-
-        if (phone != null && !phone.isEmpty())
-            organization.setPhone(phone);
-
-        if (isActive != null)
-            organization.setActive(isActive);
-
+    public void save(Organization organization) {
         em.persist(organization);
     }
 

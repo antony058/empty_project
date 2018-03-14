@@ -54,7 +54,7 @@ public class Application {
                 .groupName("persons")
                 .apiInfo(apiInfo())
                 .select()
-                .paths(regex("/person.*"))
+                .paths(regex("/api.*"))
                 .build();
     }
 

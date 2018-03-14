@@ -10,7 +10,7 @@ import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
 import ru.bellintegrator.practice.organization.view.ListOrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
-import ru.bellintegrator.practice.ViewWrapper;
+import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.organization.view.UpdateOrganizationView;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public ViewWrapper getAll(ListOrganizationView view) {
+    public ResponseView getAll(ListOrganizationView view) {
         List<Organization> all = dao.all(view.name, view.inn, view.isActive);
 
         Function<Organization, OrganizationView> mapOrganization = o -> {
@@ -45,12 +45,12 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .map(mapOrganization)
                 .collect(Collectors.toList());
 
-        return new ViewWrapper(orgViewsList); // упаковываем список в обертку
+        return new ResponseView(orgViewsList); // упаковываем список в обертку
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ViewWrapper getOrganizationById(String id) {
+    public ResponseView getOrganizationById(String id) {
         Organization organization = dao.loadById(id);
 
         OrganizationView view = new OrganizationView();
@@ -63,28 +63,52 @@ public class OrganizationServiceImpl implements OrganizationService {
         view.phone = organization.getPhone();
         view.isActive = organization.getActive();
 
-        return new ViewWrapper(view); // упаковываем объект в обертку
+        return new ResponseView(view); // упаковываем объект в обертку
     }
 
     @Override
     @Transactional
-    public ViewWrapper updateOrganization(UpdateOrganizationView view) {
-        dao.update(view.id, view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+    public ResponseView updateOrganization(UpdateOrganizationView view) {
+        Organization organization = dao.loadById(view.id);
 
-        ViewWrapper viewWrapper = new ViewWrapper();
-        viewWrapper.setSuccess("success");
+        if (view.name != null && !view.name.isEmpty())
+            organization.setName(view.name);
 
-        return viewWrapper; // запись пользователю об успешном измении данных
+        if (view.fullName != null && !view.fullName.isEmpty())
+            organization.setFullName(view.fullName);
+
+        if (view.inn != null && !view.inn.isEmpty())
+            organization.setInn(view.inn);
+
+        if (view.kpp != null && !view.kpp.isEmpty())
+            organization.setKpp(view.kpp);
+
+        if (view.address != null && !view.address.isEmpty())
+            organization.setAddress(view.address);
+
+        if (view.phone != null && !view.phone.isEmpty())
+            organization.setPhone(view.phone);
+
+        if (view.isActive != null)
+            organization.setActive(view.isActive);
+
+        ResponseView responseView = new ResponseView();
+        responseView.setSuccess("success");
+
+        return responseView; // запись пользователю об успешном измении данных
     }
 
     @Override
     @Transactional
-    public ViewWrapper saveOrganization(OrganizationView view) {
-        dao.save(view.name, view.fullName, view.inn, view.kpp, view.address, view.phone, view.isActive);
+    public ResponseView saveOrganization(OrganizationView view) {
+        Organization organization = new Organization(view.name, view.fullName, view.inn,
+                view.kpp, view.address, view.phone, view.isActive);
 
-        ViewWrapper viewWrapper = new ViewWrapper();
-        viewWrapper.setSuccess("success");
+        dao.save(organization);
 
-        return viewWrapper; // запись пользователю об успешном сохранении организации
+        ResponseView responseView = new ResponseView();
+        responseView.setSuccess("success");
+
+        return responseView; // запись пользователю об успешном сохранении организации
     }
 }

@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.bellintegrator.practice.ViewWrapper;
+import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.exception.NotValidParamRuntimeException;
 import ru.bellintegrator.practice.organization.controller.OrganizationController;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
@@ -29,7 +29,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @Override
     @ApiOperation(value = "getOrganizations", nickname = "getOrganizations", httpMethod = "POST")
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
-    public ViewWrapper getOrganizations(@Valid @RequestBody ListOrganizationView view, BindingResult bindingResult) {
+    public ResponseView getOrganizations(@Valid @RequestBody ListOrganizationView view, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new NotValidParamRuntimeException("Необходимо заполнить поле name");
 
@@ -39,7 +39,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @Override
     @ApiOperation(value = "getOrganizationById", nickname = "getOrganizationById", httpMethod = "GET")
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-    public ViewWrapper getOrganizationById(@PathVariable String id) {
+    public ResponseView getOrganizationById(@PathVariable String id) {
         if (id == null || id.isEmpty()) // custom validation?
             throw new NotValidParamRuntimeException("Необходимо заполнить поле id");
 
@@ -49,7 +49,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @Override
     @ApiOperation(value = "updateOrganization", nickname = "updateOrganization", httpMethod = "POST")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    public ViewWrapper updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult) {
+    public ResponseView updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             throw new NotValidParamRuntimeException("Необходимо заполнить поле id");
 
@@ -59,7 +59,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @Override
     @ApiOperation(value = "saveOrganization", nickname = "saveOrganization", httpMethod = "POST")
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
-    public ViewWrapper saveOrganization(@RequestBody OrganizationView view) {
+    public ResponseView saveOrganization(@RequestBody OrganizationView view) {
         return organizationService.saveOrganization(view);
     }
 }

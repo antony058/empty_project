@@ -8,15 +8,15 @@ INSERT INTO House (id, version, address, person_id) VALUES (1, 0, 'ул.Цюру
 
 INSERT INTO House (id, version, address, person_id) VALUES (2, 0, 'ул.Лунина, 7', 2);
 
-INSERT INTO Doc_types (code, name) VALUES (3, 'Свидетельство о рождении');
-INSERT INTO Doc_types (code, name) VALUES (7, 'Военный билет');
-INSERT INTO Doc_types (code, name) VALUES (10, 'Паспорт иностранного гражданина');
-INSERT INTO Doc_types (code, name) VALUES (21, 'Паспорт гражданина Российской Федерации');
+INSERT INTO Document (code, name) VALUES (3, 'Свидетельство о рождении');
+INSERT INTO Document (code, name) VALUES (7, 'Военный билет');
+INSERT INTO Document (code, name) VALUES (10, 'Паспорт иностранного гражданина');
+INSERT INTO Document (code, name) VALUES (21, 'Паспорт гражданина Российской Федерации');
 
-INSERT INTO Countries (code, name) VALUES (643, 'Российская Федерация');
-INSERT INTO Countries (code, name) VALUES (688, 'Республика Сербия');
-INSERT INTO Countries (code, name) VALUES (724, 'Королевство Испания');
-INSERT INTO Countries (code, name) VALUES (8, 'Республика Албания');
+INSERT INTO Country (code, name) VALUES (643, 'Российская Федерация');
+INSERT INTO Country (code, name) VALUES (688, 'Республика Сербия');
+INSERT INTO Country (code, name) VALUES (724, 'Королевство Испания');
+INSERT INTO Country (code, name) VALUES (8, 'Республика Албания');
 
 INSERT INTO User (login, password, name, is_active) VALUES ('user_1', 'sha-2 hash', 'Антон', true);
 INSERT INTO User (login, password, name, is_active) VALUES ('user_2', 'sha-2 hash', 'Дмитрий', true);

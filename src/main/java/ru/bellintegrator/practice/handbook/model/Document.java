@@ -3,8 +3,8 @@ package ru.bellintegrator.practice.handbook.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Doc_types")
-public class DocType {
+@Table(name = "Document")
+public class Document {
 
     @Id
     @Column(name = "code")

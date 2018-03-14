@@ -3,7 +3,7 @@ package ru.bellintegrator.practice.handbook.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Countries")
+@Table(name = "Country")
 public class Country {
 
     @Id

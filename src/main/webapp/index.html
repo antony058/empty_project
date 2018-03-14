@@ -26,6 +26,13 @@
 
         id: <input type="text" id="orgId"><br>
         <button id="getOrganizationById" class="btn btn-default btn-md">Get by ID</button><br>
+        <div style="margin-top: 20px">
+            office id: <input type="text" id="officeId">
+            office name: <input type="text" id="officeName">
+            office phone: <input type="text" id="officePhone">
+            office active: <input type="text" id="officeActive">
+            <button id="getOfficesById" class="btn btn-default btn-md">Offices</button>
+        </div>
 
     <script>
         $(document).ready(function () {
@@ -52,6 +59,25 @@
                     type: "GET",
                     contentType:"application/json; charset=utf-8",
                     dataType:"json",
+                    success: function (data) {
+                        alert(JSON.stringify(data));
+                    }
+                });
+            });
+
+            $("#getOfficesById").click(function () {
+                var offices = {
+                    orgId: $("#officeId").val(),
+                    name: $("#officeName").val(),
+                    phone: $("#officePhone").val(),
+                    isActive: $("#officeActive").val()
+                };
+
+                $.ajax({
+                    url: "/api/office/list",
+                    type: "POST",
+                    data: JSON.stringify(offices),
+                    contentType:"application/json; charset=utf-8",
                     success: function (data) {
                         alert(JSON.stringify(data));
                     }

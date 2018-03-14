@@ -1,7 +1,7 @@
 package ru.bellintegrator.practice.employee.model;
 
 import ru.bellintegrator.practice.handbook.model.Country;
-import ru.bellintegrator.practice.handbook.model.DocType;
+import ru.bellintegrator.practice.handbook.model.Document;
 import ru.bellintegrator.practice.office.model.Office;
 
 import javax.persistence.*;
@@ -57,7 +57,7 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doc_code")
-    private DocType document;
+    private Document document;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_code")
@@ -134,11 +134,11 @@ public class Employee {
         return offices;
     }
 
-    public DocType getDocument() {
+    public Document getDocument() {
         return document;
     }
 
-    public void setDocument(DocType document) {
+    public void setDocument(Document document) {
         this.document = document;
     }
 

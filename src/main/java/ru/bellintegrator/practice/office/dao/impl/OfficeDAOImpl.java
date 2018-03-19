@@ -59,4 +59,9 @@ public class OfficeDAOImpl implements OfficeDAO {
     public void save(Office office) {
         em.persist(office);
     }
+
+    @Override
+    public void delete(Office office) {
+        em.remove(office);
+    }
 }

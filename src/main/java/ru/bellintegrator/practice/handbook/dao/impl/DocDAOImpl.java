@@ -7,6 +7,10 @@ import ru.bellintegrator.practice.handbook.model.Document;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.print.Doc;
 import java.util.List;
 
 @Repository
@@ -24,5 +28,17 @@ public class DocDAOImpl implements DocDAO {
         TypedQuery<Document> query = em.createQuery("SELECT d FROM Document d", Document.class);
 
         return query.getResultList();
+    }
+
+    @Override
+    public Document loadByName(String name) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = builder.createQuery(Document.class);
+
+        Root<Document> documentRoot = criteriaQuery.from(Document.class);
+        criteriaQuery.where(builder.equal(documentRoot.get("name"), name));
+
+        TypedQuery<Document> query = em.createQuery(criteriaQuery);
+        return query.getSingleResult();
     }
 }

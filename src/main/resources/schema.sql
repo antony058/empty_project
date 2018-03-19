@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS Organization (
     kpp VARCHAR(9),
     address VARCHAR(70),
     phone VARCHAR(12),
-    version INTEGER,
+    version INTEGER DEFAULT 0,
     is_active BOOLEAN NOT NULL
 );
 
@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS Office (
     phone VARCHAR(12),
     address  VARCHAR(70),
     is_active BOOLEAN,
+    version INTEGER DEFAULT 0,
     org_id INTEGER
 );
 
@@ -80,18 +81,12 @@ CREATE TABLE IF NOT EXISTS Employee (
     middle_name VARCHAR(50),
     position VARCHAR(40) NOT NULL,
     phone VARCHAR(12) NOT NULL,
-    doc_number VARCHAR(20) NOT NULL,
-    doc_date DATE NOT NULL,
     is_identified BOOLEAN NOT NULL,
-    version INTEGER,
-    doc_code INTEGER,
+    version INTEGER DEFAULT 0,
     citizenship_code INTEGER
 );
 
 CREATE INDEX IX_Employee_Id ON Employee (id);
-
-CREATE INDEX IX_Employee_DocCode ON Employee (doc_code);
-ALTER TABLE Employee ADD FOREIGN KEY (doc_code) REFERENCES Document(code);
 
 CREATE INDEX IX_Employee_CitizenshipCode ON Employee (citizenship_code);
 ALTER TABLE Employee ADD FOREIGN KEY (citizenship_code) REFERENCES Country(code);
@@ -106,3 +101,18 @@ ALTER TABLE Office_Employee ADD FOREIGN KEY (office_id) REFERENCES Office(id);
 
 CREATE INDEX IX_Office_Employee_Id ON Office_Employee (employee_id);
 ALTER TABLE Office_Employee ADD FOREIGN KEY (employee_id) REFERENCES Employee(id);
+
+CREATE TABLE IF NOT EXISTS Employees_document (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    doc_number VARCHAR(20) NOT NULL,
+    doc_date DATE NOT NULL,
+    version INTEGER DEFAULT 0,
+    doc_code INTEGER NOT NULL,
+    employee_id INTEGER NOT NULL
+);
+
+CREATE INDEX IX_Employees_Document_DocCode ON Employees_document (doc_code);
+ALTER TABLE Employees_document ADD FOREIGN KEY (doc_code) REFERENCES Document(code);
+
+CREATE INDEX IX_Employees_Document_EmployeeId ON Employees_document (employee_id);
+ALTER TABLE Employees_document ADD FOREIGN KEY (employee_id) REFERENCES Employee(id);

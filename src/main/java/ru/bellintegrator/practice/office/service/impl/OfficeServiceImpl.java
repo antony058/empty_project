@@ -9,9 +9,12 @@ import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.office.dao.OfficeDAO;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.service.OfficeService;
+import ru.bellintegrator.practice.office.view.DeleteOfficeView;
 import ru.bellintegrator.practice.office.view.ListOfficeView;
 import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.office.view.UpdateOfficeView;
+import ru.bellintegrator.practice.organization.dao.OrganizationDAO;
+import ru.bellintegrator.practice.organization.model.Organization;
 
 import java.util.List;
 import java.util.function.Function;
@@ -20,11 +23,14 @@ import java.util.stream.Collectors;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class OfficeServiceImpl implements OfficeService {
+
     private final OfficeDAO dao;
+    private final OrganizationDAO orgDAO;
 
     @Autowired
-    public OfficeServiceImpl(OfficeDAO dao) {
+    public OfficeServiceImpl(OfficeDAO dao, OrganizationDAO orgDAO) {
         this.dao = dao;
+        this.orgDAO = orgDAO;
     }
 
     @Override
@@ -87,9 +93,27 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     @Transactional
     public ResponseView save(OfficeView view) {
+        Organization organization = orgDAO.loadById(String.valueOf(view.orgId));
+        if (organization == null) {
+            // add exception
+        }
+
         Office office = new Office(view.name, view.address, view.phone, view.isActive);
+        office.setOrganization(organization);
 
         dao.save(office);
+
+        ResponseView responseView = new ResponseView();
+        responseView.setSuccess("success");
+
+        return responseView;
+    }
+
+    @Override
+    @Transactional
+    public ResponseView delete(DeleteOfficeView view) {
+        Office office = dao.loadById(view.id);
+        dao.delete(office);
 
         ResponseView responseView = new ResponseView();
         responseView.setSuccess("success");

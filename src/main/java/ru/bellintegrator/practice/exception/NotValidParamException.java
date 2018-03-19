@@ -1,13 +1,13 @@
 package ru.bellintegrator.practice.exception;
 
-public class NotValidParamRuntimeException extends RuntimeException {
+public class NotValidParamException extends RuntimeException {
 
     /*
     * Исключение выбрасывается ответ на
     * не валидные входные параметры
     *
      */
-    public NotValidParamRuntimeException(String message) {
+    public NotValidParamException(String message) {
         super(message);
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.organization.dao.OrganizationDAO;
 import ru.bellintegrator.practice.organization.model.Organization;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
+import ru.bellintegrator.practice.organization.view.DeleteOrganizationView;
 import ru.bellintegrator.practice.organization.view.ListOrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.ResponseView;
@@ -110,5 +111,17 @@ public class OrganizationServiceImpl implements OrganizationService {
         responseView.setSuccess("success");
 
         return responseView; // запись пользователю об успешном сохранении организации
+    }
+
+    @Override
+    @Transactional
+    public ResponseView deleteOrganization(DeleteOrganizationView view) {
+        Organization organization = dao.loadById(view.id);
+        dao.delete(organization);
+
+        ResponseView responseView = new ResponseView();
+        responseView.setSuccess("success");
+
+        return responseView;
     }
 }

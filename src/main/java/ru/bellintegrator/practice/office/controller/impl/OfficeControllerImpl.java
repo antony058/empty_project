@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
-import ru.bellintegrator.practice.exception.NotValidParamRuntimeException;
+import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.office.controller.OfficeController;
 import ru.bellintegrator.practice.office.service.OfficeService;
+import ru.bellintegrator.practice.office.view.DeleteOfficeView;
 import ru.bellintegrator.practice.office.view.ListOfficeView;
 import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.office.view.UpdateOfficeView;
@@ -31,7 +32,7 @@ public class OfficeControllerImpl implements OfficeController {
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
     public ResponseView getOffices(@Valid @RequestBody ListOfficeView view, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new NotValidParamRuntimeException("Параметр orgId не может быть пустым");
+            throw new NotValidParamException("Параметр orgId не может быть пустым");
 
         return officeService.getAllByOrgId(view);
     }
@@ -41,7 +42,7 @@ public class OfficeControllerImpl implements OfficeController {
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ResponseView getOffice(@PathVariable String id) {
         if (id == null || id.isEmpty())
-            throw new NotValidParamRuntimeException("Параметр id не может быть пустым");
+            throw new NotValidParamException("Параметр id не может быть пустым");
 
         return officeService.getById(id);
     }
@@ -51,7 +52,7 @@ public class OfficeControllerImpl implements OfficeController {
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     public ResponseView updateOffice(@Valid @RequestBody UpdateOfficeView view, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new NotValidParamRuntimeException("Заполните необходимые поля");
+            throw new NotValidParamException("Заполните необходимые поля");
 
         return officeService.update(view);
     }
@@ -59,7 +60,20 @@ public class OfficeControllerImpl implements OfficeController {
     @Override
     @ApiOperation(value = "saveOffice", nickname = "saveOffice", httpMethod = "POST")
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
-    public ResponseView saveOffice(@RequestBody OfficeView view) {
+    public ResponseView saveOffice(@Valid @RequestBody OfficeView view, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new NotValidParamException("Параметр orgId не может быть пустым");
+
         return officeService.save(view);
+    }
+
+    @Override
+    @ApiOperation(value = "deleteOffice", nickname = "deleteOffice", httpMethod = "POST")
+    @RequestMapping(value = "/delete", method = {RequestMethod.POST})
+    public ResponseView deleteOffice(@Valid @RequestBody DeleteOfficeView view, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new NotValidParamException("Параметр id не может быть пустым");
+
+        return officeService.delete(view);
     }
 }

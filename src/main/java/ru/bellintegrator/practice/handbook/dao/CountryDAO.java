@@ -7,4 +7,6 @@ import java.util.List;
 public interface CountryDAO {
 
     List<Country> all();
+
+    Country loadByCode(Integer code);
 }

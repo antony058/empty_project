@@ -22,4 +22,6 @@ public interface OrganizationDAO {
     * Сохранить Organization
      */
     void save(Organization organization);
+
+    void delete(Organization organization);
 }

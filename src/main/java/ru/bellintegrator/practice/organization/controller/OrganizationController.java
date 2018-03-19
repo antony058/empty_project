@@ -4,6 +4,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.bellintegrator.practice.ResponseView;
+import ru.bellintegrator.practice.organization.view.DeleteOrganizationView;
 import ru.bellintegrator.practice.organization.view.ListOrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.organization.view.UpdateOrganizationView;
@@ -35,4 +36,10 @@ public interface OrganizationController {
     *
      */
     ResponseView saveOrganization(@RequestBody OrganizationView view);
+
+    /*
+    * Удалить Organization
+    *
+     */
+    ResponseView deleteOrganization(@Valid @RequestBody DeleteOrganizationView view, BindingResult bindingResult);
 }

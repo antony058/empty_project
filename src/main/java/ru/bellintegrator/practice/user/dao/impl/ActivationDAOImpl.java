@@ -2,11 +2,9 @@ package ru.bellintegrator.practice.user.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import ru.bellintegrator.practice.exception.NotValidParamRuntimeException;
+import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.user.dao.ActivationDAO;
 import ru.bellintegrator.practice.user.model.Activation;
-import ru.bellintegrator.practice.user.model.User;
-import ru.bellintegrator.practice.user.view.ActivationView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -37,7 +35,7 @@ public class ActivationDAOImpl implements ActivationDAO {
         try {
             return query.getSingleResult();
         } catch (NoResultException ex) {
-            throw new NotValidParamRuntimeException(ex.getMessage());
+            throw new NotValidParamException(ex.getMessage());
         }
     }
 

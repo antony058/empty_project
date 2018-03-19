@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
-import ru.bellintegrator.practice.exception.NotValidParamRuntimeException;
+import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.organization.controller.OrganizationController;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
+import ru.bellintegrator.practice.organization.view.DeleteOrganizationView;
 import ru.bellintegrator.practice.organization.view.ListOrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.organization.view.UpdateOrganizationView;
@@ -31,7 +32,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/list", method = {RequestMethod.POST})
     public ResponseView getOrganizations(@Valid @RequestBody ListOrganizationView view, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new NotValidParamRuntimeException("Необходимо заполнить поле name");
+            throw new NotValidParamException("Необходимо заполнить поле name");
 
         return organizationService.getAll(view);
     }
@@ -41,7 +42,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
     public ResponseView getOrganizationById(@PathVariable String id) {
         if (id == null || id.isEmpty()) // custom validation?
-            throw new NotValidParamRuntimeException("Необходимо заполнить поле id");
+            throw new NotValidParamException("Необходимо заполнить поле id");
 
         return organizationService.getOrganizationById(id);
     }
@@ -51,7 +52,7 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
     public ResponseView updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            throw new NotValidParamRuntimeException("Необходимо заполнить поле id");
+            throw new NotValidParamException("Необходимо заполнить поле id");
 
         return organizationService.updateOrganization(view);
     }
@@ -61,5 +62,15 @@ public class OrganizationControllerImpl implements OrganizationController {
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     public ResponseView saveOrganization(@RequestBody OrganizationView view) {
         return organizationService.saveOrganization(view);
+    }
+
+    @Override
+    @ApiOperation(value = "deleteOrganization", nickname = "deleteOrganization", httpMethod = "POST")
+    @RequestMapping(value = "/delete", method = {RequestMethod.POST})
+    public ResponseView deleteOrganization(@Valid @RequestBody DeleteOrganizationView view, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new NotValidParamException("Необходимо заполнить поле id");
+
+        return organizationService.deleteOrganization(view);
     }
 }

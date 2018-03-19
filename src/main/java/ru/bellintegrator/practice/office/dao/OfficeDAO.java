@@ -11,4 +11,6 @@ public interface OfficeDAO {
     Office loadById(String id);
 
     void save(Office office);
+
+    void delete(Office office);
 }

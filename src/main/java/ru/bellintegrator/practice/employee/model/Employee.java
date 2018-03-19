@@ -41,27 +41,30 @@ public class Employee {
     private String phone;
 
     @Basic(optional = false)
-    @Column(name = "doc_number")
-    private String docNumber;
-
-    @Basic(optional = false)
-    @Column(name = "doc_date")
-    private Date docDate;
-
-    @Basic(optional = false)
     @Column(name = "is_identified")
     private Boolean isIdentified;
 
     @ManyToMany(mappedBy = "employees")
     private Set<Office> offices;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doc_code")
-    private Document document;
+    @OneToMany(
+            mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<EmployeesDocument> employeesDocuments;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "citizenship_code")
     private Country country;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -103,22 +106,6 @@ public class Employee {
         this.phone = phone;
     }
 
-    public String getDocNumber() {
-        return docNumber;
-    }
-
-    public void setDocNumber(String docNumber) {
-        this.docNumber = docNumber;
-    }
-
-    public Date getDocDate() {
-        return docDate;
-    }
-
-    public void setDocDate(Date docDate) {
-        this.docDate = docDate;
-    }
-
     public Boolean getIdentified() {
         return isIdentified;
     }
@@ -134,19 +121,32 @@ public class Employee {
         return offices;
     }
 
-    public Document getDocument() {
-        return document;
-    }
-
-    public void setDocument(Document document) {
-        this.document = document;
-    }
-
     public Country getCountry() {
         return country;
     }
 
     public void setCountry(Country country){
         this.country = country;
+    }
+
+    public Set<EmployeesDocument> getEmployeesDocuments() {
+        if (employeesDocuments == null)
+            employeesDocuments = new HashSet<>();
+
+        return employeesDocuments;
+    }
+
+    public void setEmployeesDocuments(Set<EmployeesDocument> employeesDocuments) {
+        this.employeesDocuments = employeesDocuments;
+    }
+
+    public void addEmployeesDocument(EmployeesDocument employeesDocument) {
+        getEmployeesDocuments().add(employeesDocument);
+        employeesDocument.setEmployee(this);
+    }
+
+    public void removeEmployeesDocument(EmployeesDocument employeesDocument) {
+        getEmployeesDocuments().remove(employeesDocument);
+        employeesDocument.setEmployee(null);
     }
 }

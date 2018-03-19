@@ -59,4 +59,9 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         em.persist(organization);
     }
 
+    @Override
+    public void delete(Organization organization) {
+        em.remove(organization);
+    }
+
 }

@@ -98,6 +98,14 @@ public class Organization {
         return id;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
     public String getName() {
         return name;
     }

@@ -13,7 +13,6 @@ public class UpdateOrganizationView {
     * Используется для запроса пользователя на изменение данных
      */
 
-    @ApiModelProperty(hidden = true)
     @NotEmpty
     @NotNull
     public String id;

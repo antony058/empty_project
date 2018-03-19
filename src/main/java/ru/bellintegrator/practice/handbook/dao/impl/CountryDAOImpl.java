@@ -25,4 +25,9 @@ public class CountryDAOImpl implements CountryDAO {
 
         return query.getResultList();
     }
+
+    @Override
+    public Country loadByCode(Integer code) {
+        return em.find(Country.class, code);
+    }
 }

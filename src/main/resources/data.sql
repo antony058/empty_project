@@ -51,35 +51,48 @@ VALUES ('Почта России Москва', '+78234735678', 'ул. Герц�
 INSERT INTO Office (name, phone, address, is_active, org_id)
 VALUES ('Почта России Москва', '+78234735118', 'ул. Герцена 20 строение 4', true, 2);
 
-INSERT INTO Employee (first_name, last_name, middle_name, position, phone, doc_number, doc_date,
- is_identified, doc_code, citizenship_code) VALUES (
-'Иван', 'Иванов', null, 'Админ', '+78234731111', 'DOC1234', '2020-12-10',
- true, 21, 643
+INSERT INTO Employee (first_name, last_name, middle_name, position, phone,
+ is_identified, citizenship_code) VALUES (
+'Иван', 'Иванов', null, 'Админ', '+78234731111', true, 643
 );
-INSERT INTO Employee (first_name, last_name, middle_name, position, phone, doc_number, doc_date,
- is_identified, doc_code, citizenship_code) VALUES (
-'Петр', 'Петров', null, 'Консультант', '+78234731111', 'DOC1233', '2020-11-01',
- true, 21, 643
+INSERT INTO Employee (first_name, last_name, middle_name, position, phone,
+ is_identified, citizenship_code) VALUES (
+'Петр', 'Петров', null, 'Консультант', '+78234731111', true, 643
 );
-INSERT INTO Employee (first_name, last_name, middle_name, position, phone, doc_number, doc_date,
- is_identified, doc_code, citizenship_code) VALUES (
-'Сергей', 'Сергеев', null, 'Программист', '+78234731111', 'DOC3233', '2020-11-11',
- true, 21, 643
+INSERT INTO Employee (first_name, last_name, middle_name, position, phone,
+ is_identified, citizenship_code) VALUES (
+'Сергей', 'Сергеев', null, 'Программист', '+78234731111', true, 643
 );
-INSERT INTO Employee (first_name, last_name, middle_name, position, phone, doc_number, doc_date,
- is_identified, doc_code, citizenship_code) VALUES (
-'Милован', 'Иванович', null, 'Курьер', '+78234731111', 'DOC3333', '2020-11-11',
- true, 10, 688
+INSERT INTO Employee (first_name, last_name, middle_name, position, phone,
+ is_identified, citizenship_code) VALUES (
+'Милован', 'Иванович', null, 'Курьер', '+78234731111', true, 688
 );
-INSERT INTO Employee (first_name, last_name, middle_name, position, phone, doc_number, doc_date,
- is_identified, doc_code, citizenship_code) VALUES (
-'Жерар', 'Пике', null, 'SEO специалист', '+78234731111', 'DOC2233', '2020-11-11',
- true, 10, 724
+INSERT INTO Employee (first_name, last_name, middle_name, position, phone,
+ is_identified, citizenship_code) VALUES (
+'Жерар', 'Пике', null, 'SEO специалист', '+78234731111', true, 724
 );
-INSERT INTO Employee (first_name, last_name, middle_name, position, phone, doc_number, doc_date,
- is_identified, doc_code, citizenship_code) VALUES (
-'Марьина', 'Мария', null, 'Ландшафтный дизайнер', '+78234731111', 'DOC2233', '2020-11-11',
- true, 21, 643
+INSERT INTO Employee (first_name, last_name, middle_name, position, phone,
+ is_identified, citizenship_code) VALUES (
+'Марьина', 'Мария', null, 'Ландшафтный дизайнер', '+78234731111', true, 643
+);
+
+INSERT INTO Employees_document (doc_number, doc_date, doc_code, employee_id) VALUES (
+'DOC1234', '2020-12-10', 21, 1
+);
+INSERT INTO Employees_document (doc_number, doc_date, doc_code, employee_id) VALUES (
+'DOC1233', '2020-11-01', 21, 2
+);
+INSERT INTO Employees_document (doc_number, doc_date, doc_code, employee_id) VALUES (
+'DOC3233', '2020-11-11', 21, 3
+);
+INSERT INTO Employees_document (doc_number, doc_date, doc_code, employee_id) VALUES (
+'DOC3333', '2020-11-11', 10, 4
+);
+INSERT INTO Employees_document (doc_number, doc_date, doc_code, employee_id) VALUES (
+'DOC2233', '2020-11-11', 10, 5
+);
+INSERT INTO Employees_document (doc_number, doc_date, doc_code, employee_id) VALUES (
+'DOC2230', '2020-11-11', 21, 6
 );
 
 INSERT INTO Office_Employee (employee_id, office_id) VALUES (1, 1);

@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.employee.dao.impl;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.employee.dao.EmployeeDAO;
@@ -25,7 +26,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public List<Employee> allByOfficeId(String officeId, String firstName, String lastName,
+    public List<Employee> allByOfficeId(Long officeId, String firstName, String lastName,
                                         String middleName, String position, Integer docCode, Integer citizenshipCode) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery query = builder.createQuery(Employee.class);
@@ -33,7 +34,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Root<Employee> employee = query.from(Employee.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(builder.equal(employee.join("offices").get("id"), Long.valueOf(officeId)));
+        predicates.add(builder.equal(employee.join("offices").get("id"), officeId));
 
         if (firstName != null && !firstName.isEmpty())
             predicates.add(builder.like(employee.get("firstName"), "%" + firstName + "%"));
@@ -64,8 +65,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public Employee loadById(String id) {
-        return em.find(Employee.class, Long.valueOf(id));
+    public Employee loadById(Long id) throws NotFoundException {
+        Employee employee = em.find(Employee.class, id);
+        if (employee == null)
+            throw new NotFoundException("Работник с id = " + id + " не найден");
+
+        return employee;
     }
 
     @Override

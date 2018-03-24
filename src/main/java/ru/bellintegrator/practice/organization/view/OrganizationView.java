@@ -3,7 +3,6 @@ package ru.bellintegrator.practice.organization.view;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.NotEmpty;
 
 public class OrganizationView {
     /*
@@ -14,8 +13,7 @@ public class OrganizationView {
      */
 
     @ApiModelProperty(hidden = true)
-    @NotEmpty
-    public String id;
+    public Long id;
 
     public String name;
 

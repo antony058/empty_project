@@ -26,15 +26,16 @@ CREATE TABLE IF NOT EXISTS Country (
 
 CREATE TABLE IF NOT EXISTS User (
     login VARCHAR(25) PRIMARY KEY,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     name VARCHAR(25)  NOT NULL,
-    is_active BOOLEAN NOT NULL
+    is_active BOOLEAN NOT NULL,
+    email VARCHAR(40) NOT NULL
 );
 
 CREATE INDEX IX_User_Login ON User (login);
 
 CREATE TABLE IF NOT EXISTS Activation (
-    code VARCHAR(50) PRIMARY KEY,
+    code VARCHAR(64) PRIMARY KEY,
     user_login VARCHAR(25)
 );
 
@@ -104,10 +105,10 @@ ALTER TABLE Office_Employee ADD FOREIGN KEY (employee_id) REFERENCES Employee(id
 
 CREATE TABLE IF NOT EXISTS Employees_document (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    doc_number VARCHAR(20) NOT NULL,
-    doc_date DATE NOT NULL,
+    doc_number VARCHAR(20),
+    doc_date DATE,
     version INTEGER DEFAULT 0,
-    doc_code INTEGER NOT NULL,
+    doc_code INTEGER,
     employee_id INTEGER NOT NULL
 );
 

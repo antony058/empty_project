@@ -1,14 +1,15 @@
 package ru.bellintegrator.practice.office.dao;
 
+import javassist.NotFoundException;
 import ru.bellintegrator.practice.office.model.Office;
 
 import java.util.List;
 
 public interface OfficeDAO {
 
-    List<Office> allByOrgId(String orgId, String name, String phone, Boolean isActive);
+    List<Office> allByOrgId(Long orgId, String name, String phone, Boolean isActive);
 
-    Office loadById(String id);
+    Office loadById(Long id) throws NotFoundException;
 
     void save(Office office);
 

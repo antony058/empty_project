@@ -1,20 +1,22 @@
 package ru.bellintegrator.practice.employee.service;
 
-import ru.bellintegrator.practice.ResponseView;
+import javassist.NotFoundException;
 import ru.bellintegrator.practice.employee.view.DeleteEmployeeView;
 import ru.bellintegrator.practice.employee.view.EmployeeView;
 import ru.bellintegrator.practice.employee.view.ListEmployeeView;
 import ru.bellintegrator.practice.employee.view.UpdateEmployeeView;
 
+import java.util.List;
+
 public interface EmployeeService {
 
-    ResponseView getAllByOfficeId(ListEmployeeView view);
+    List<EmployeeView> getAllByOfficeId(ListEmployeeView view);
 
-    ResponseView getById(String id);
+    EmployeeView getById(String id) throws NotFoundException;
 
-    ResponseView update(UpdateEmployeeView view);
+    void update(UpdateEmployeeView view) throws NotFoundException;
 
-    ResponseView delete(DeleteEmployeeView view);
+    void delete(DeleteEmployeeView view) throws NotFoundException;
 
-    ResponseView save(EmployeeView view);
+    void save(EmployeeView view) throws NotFoundException;
 }

@@ -10,7 +10,7 @@ public class Activation {
     @Column(name = "code")
     private String code;
 
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_login")
     private User user;
 
@@ -18,9 +18,17 @@ public class Activation {
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     public User getUser() {
         if (user == null)
             user = new User();
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

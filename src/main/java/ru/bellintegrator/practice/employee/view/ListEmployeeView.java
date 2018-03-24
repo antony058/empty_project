@@ -1,14 +1,11 @@
 package ru.bellintegrator.practice.employee.view;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.NotNull;
 
 public class ListEmployeeView {
 
     @NotNull
-    @NotEmpty
-    public String officeId;
+    public Long officeId;
 
     public String firstName;
 

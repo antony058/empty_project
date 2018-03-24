@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.organization.dao.impl;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.organization.dao.OrganizationDAO;
@@ -50,8 +51,12 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     }
 
     @Override
-    public Organization loadById(String id) {
-        return em.find(Organization.class, Long.valueOf(id));
+    public Organization loadById(Long id) throws NotFoundException {
+        Organization organization = em.find(Organization.class, id);
+        if (organization == null)
+            throw new NotFoundException("Организация с id = " + id + " не найдена");
+
+        return organization;
     }
 
     @Override
@@ -62,6 +67,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     @Override
     public void delete(Organization organization) {
         em.remove(organization);
+    }
+
+    @Override
+    public void update(Organization organization) {
+        em.merge(organization);
     }
 
 }

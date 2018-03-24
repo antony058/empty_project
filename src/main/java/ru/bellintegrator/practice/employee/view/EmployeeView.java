@@ -2,7 +2,6 @@ package ru.bellintegrator.practice.employee.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -11,7 +10,7 @@ public class EmployeeView {
 
     @ApiModelProperty(hidden = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public String id;
+    public Long id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String firstName;
@@ -27,6 +26,9 @@ public class EmployeeView {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String phone;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public Integer docCode;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public String docName;
@@ -47,7 +49,6 @@ public class EmployeeView {
     public Boolean isIdentified;
 
     @NotNull
-    @NotEmpty
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public String officeId;
+    public Long officeId;
 }

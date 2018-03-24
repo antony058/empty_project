@@ -1,8 +1,10 @@
 package ru.bellintegrator.practice.handbook.service;
 
-import ru.bellintegrator.practice.ResponseView;
+import ru.bellintegrator.practice.handbook.model.Country;
+
+import java.util.List;
 
 public interface CountryService {
 
-    ResponseView getAllCountries();
+    List<Country> getAllCountries();
 }

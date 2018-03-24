@@ -1,11 +1,11 @@
 package ru.bellintegrator.practice.office.service.impl;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.office.dao.OfficeDAO;
 import ru.bellintegrator.practice.office.model.Office;
 import ru.bellintegrator.practice.office.service.OfficeService;
@@ -34,8 +34,8 @@ public class OfficeServiceImpl implements OfficeService {
     }
 
     @Override
-    @Transactional
-    public ResponseView getAllByOrgId(ListOfficeView view) {
+    @Transactional(readOnly = true)
+    public List<OfficeView> getAllByOrgId(ListOfficeView view) {
         List<Office> offices = dao.allByOrgId(view.orgId, view.name, view.phone, view.isActive);
 
         Function<Office, OfficeView> mapOffice = o -> {
@@ -49,13 +49,13 @@ public class OfficeServiceImpl implements OfficeService {
 
         List<OfficeView> officeViews = offices.stream().map(mapOffice).collect(Collectors.toList());
 
-        return new ResponseView(officeViews);
+        return officeViews;
     }
 
     @Override
-    @Transactional
-    public ResponseView getById(String id) {
-        Office office = dao.loadById(id);
+    @Transactional(readOnly = true)
+    public OfficeView getById(String id) throws NotFoundException {
+        Office office = dao.loadById(Long.valueOf(id));
 
         OfficeView view = new OfficeView();
         view.id = office.getId();
@@ -64,12 +64,12 @@ public class OfficeServiceImpl implements OfficeService {
         view.phone = office.getPhone();
         view.isActive = office.getActive();
 
-        return new ResponseView(view);
+        return view;
     }
 
     @Override
     @Transactional
-    public ResponseView update(UpdateOfficeView view) {
+    public void update(UpdateOfficeView view) throws NotFoundException {
         Office office = dao.loadById(view.id);
 
         if (view.name != null && !view.name.isEmpty())
@@ -83,41 +83,28 @@ public class OfficeServiceImpl implements OfficeService {
 
         if (view.isActive != null)
             office.setActive(view.isActive);
-
-        ResponseView responseView = new ResponseView();
-        responseView.setSuccess("success");
-
-        return responseView;
     }
 
     @Override
     @Transactional
-    public ResponseView save(OfficeView view) {
-        Organization organization = orgDAO.loadById(String.valueOf(view.orgId));
-        if (organization == null) {
-            // add exception
-        }
+    public void save(OfficeView view) throws NotFoundException {
+        Organization organization = orgDAO.loadById(view.orgId);
 
-        Office office = new Office(view.name, view.address, view.phone, view.isActive);
+        Office office = new Office();
+        office.setName(view.name);
+        office.setPhone(view.phone);
+        office.setAddress(view.address);
+        office.setActive(view.isActive);
         office.setOrganization(organization);
 
         dao.save(office);
-
-        ResponseView responseView = new ResponseView();
-        responseView.setSuccess("success");
-
-        return responseView;
     }
 
     @Override
     @Transactional
-    public ResponseView delete(DeleteOfficeView view) {
+    public void delete(DeleteOfficeView view) throws NotFoundException {
         Office office = dao.loadById(view.id);
+
         dao.delete(office);
-
-        ResponseView responseView = new ResponseView();
-        responseView.setSuccess("success");
-
-        return responseView;
     }
 }

@@ -1,14 +1,24 @@
 package ru.bellintegrator.practice.user.controller.impl;
 
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import ru.bellintegrator.practice.ErrorUtils;
+import ru.bellintegrator.practice.ResponseView;
+import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.user.controller.UserController;
 import ru.bellintegrator.practice.user.service.UserService;
+import ru.bellintegrator.practice.user.view.LoginUserView;
 import ru.bellintegrator.practice.user.view.UserView;
 
+import javax.management.InstanceAlreadyExistsException;
+import javax.validation.Valid;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -26,7 +36,32 @@ public class UserControllerImpl implements UserController {
     @Override
     @ApiOperation(value = "getUsers", nickname = "getUsers", httpMethod = "GET")
     @RequestMapping(value = "/users", method = {RequestMethod.GET})
-    public List<UserView> users() {
-        return userService.users();
+    public ResponseView users() {
+        List<UserView> userViews = userService.users();
+        return new ResponseView().data(userViews);
+    }
+
+    @Override
+    @ApiOperation(value = "registerUser", nickname = "registerUser", httpMethod = "POST")
+    @RequestMapping(value = "/register", method = {RequestMethod.POST})
+    public ResponseView registerUser(@Valid @RequestBody UserView view, BindingResult bindingResult)
+            throws InstanceAlreadyExistsException, NoSuchAlgorithmException {
+        if (bindingResult.hasErrors())
+            throw new NotValidParamException(ErrorUtils.makeRequiredFieldsList(bindingResult.getFieldErrors()));
+
+        userService.register(view);
+        return new ResponseView().success();
+    }
+
+    @Override
+    @ApiOperation(value = "loginUser", nickname = "loginUser", httpMethod = "POST")
+    @RequestMapping(value = "/login", method = {RequestMethod.POST})
+    public ResponseView loginUser(@Valid @RequestBody LoginUserView view, BindingResult bindingResult)
+            throws NotFoundException, NoSuchAlgorithmException {
+        if (bindingResult.hasErrors())
+            throw new NotValidParamException(ErrorUtils.makeRequiredFieldsList(bindingResult.getFieldErrors()));
+
+        userService.login(view);
+        return new ResponseView().success();
     }
 }

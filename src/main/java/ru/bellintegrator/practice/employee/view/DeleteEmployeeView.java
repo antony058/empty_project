@@ -1,12 +1,12 @@
 package ru.bellintegrator.practice.employee.view;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotNull;
 
 public class DeleteEmployeeView {
 
     @NotNull
-    @NotEmpty
-    public String id;
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    public Long id;
 }

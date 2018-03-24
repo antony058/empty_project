@@ -1,15 +1,12 @@
 package ru.bellintegrator.practice.employee.view;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 public class UpdateEmployeeView {
 
     @NotNull
-    @NotEmpty
-    public String id;
+    public Long id;
 
     public String firstName;
 
@@ -20,6 +17,8 @@ public class UpdateEmployeeView {
     public String position;
 
     public String phone;
+
+    public Integer docCode;
 
     public String docName;
 

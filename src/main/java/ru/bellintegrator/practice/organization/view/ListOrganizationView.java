@@ -1,7 +1,5 @@
 package ru.bellintegrator.practice.organization.view;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.validation.constraints.NotNull;
 
 public class ListOrganizationView {

@@ -1,7 +1,9 @@
 package ru.bellintegrator.practice.handbook.service;
 
-import ru.bellintegrator.practice.ResponseView;
+import ru.bellintegrator.practice.handbook.model.Document;
+
+import java.util.List;
 
 public interface DocService {
-    ResponseView getAllDocuments();
+    List<Document> getAllDocuments();
 }

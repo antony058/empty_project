@@ -8,5 +8,5 @@ import java.util.List;
 public interface ActivationDAO {
     List<Activation> all();
 
-    Activation checkActivationCode(String code);
+    Activation loadByCode(String code);
 }

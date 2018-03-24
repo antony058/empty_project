@@ -1,12 +1,14 @@
 package ru.bellintegrator.practice.organization.view;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 public class DeleteOrganizationView {
 
-    @NotNull
-    @NotEmpty
-    public String id;
+    @NotNull(message = "не может быть пустым")
+    @NumberFormat(style = NumberFormat.Style.NUMBER)
+    @Min(value = 1, message = "не может быть меньше 1")
+    public Long id;
 }

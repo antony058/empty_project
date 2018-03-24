@@ -27,17 +27,7 @@ public class ActivationDAOImpl implements ActivationDAO {
     }
 
     @Override
-    public Activation checkActivationCode(String code) {
-        TypedQuery<Activation> query = em.createQuery(
-                "SELECT a FROM Activation a WHERE a.code='" + code + "'", Activation.class
-        );
-
-        try {
-            return query.getSingleResult();
-        } catch (NoResultException ex) {
-            throw new NotValidParamException(ex.getMessage());
-        }
+    public Activation loadByCode(String code) {
+        return em.find(Activation.class, code);
     }
-
-
 }

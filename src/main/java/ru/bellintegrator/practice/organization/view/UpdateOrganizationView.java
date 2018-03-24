@@ -1,8 +1,5 @@
 package ru.bellintegrator.practice.organization.view;
 
-import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.validation.constraints.NotNull;
 
 public class UpdateOrganizationView {
@@ -13,9 +10,8 @@ public class UpdateOrganizationView {
     * Используется для запроса пользователя на изменение данных
      */
 
-    @NotEmpty
     @NotNull
-    public String id;
+    public Long id;
 
     public String name;
 

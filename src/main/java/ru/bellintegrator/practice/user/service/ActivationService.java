@@ -1,9 +1,9 @@
 package ru.bellintegrator.practice.user.service;
 
-import ru.bellintegrator.practice.user.view.ActivationView;
+import javassist.NotFoundException;
 
-import java.util.List;
+import java.security.NoSuchAlgorithmException;
 
 public interface ActivationService {
-    String checkActivationCode(String code);
+    void activate(String code) throws NotFoundException, NoSuchAlgorithmException;
 }

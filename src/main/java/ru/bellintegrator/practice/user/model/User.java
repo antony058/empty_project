@@ -22,15 +22,24 @@ public class User {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @Basic(optional = false)
+    @Column(name = "email")
+    private String email;
+
     @OneToOne(
             mappedBy = "user",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private Activation activation;
 
     public String getLogin() {
         return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
@@ -55,6 +64,14 @@ public class User {
 
     public void setUserActive(Boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Activation getActivation() {

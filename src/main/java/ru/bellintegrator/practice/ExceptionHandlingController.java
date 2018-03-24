@@ -1,37 +1,42 @@
 package ru.bellintegrator.practice;
 
+import javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.exception.NotValidParamException;
+
+import javax.management.InstanceAlreadyExistsException;
 
 @ControllerAdvice
 @RestController
 public class ExceptionHandlingController {
+    private static final String SERVER_ERROR_MESSAGE = "Внутренняя ошибка сервера";
 
-    /*
-    * Отлавливаем исключение NotValidParamException
-    * и записываем сообщение об ошибке в поле error класса-обертки
-    *
-    *
-     */
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = NotValidParamException.class)
     public ResponseView handleNotValidParamException(NotValidParamException ex) {
-        ResponseView responseView = new ResponseView();
-        responseView.setError(ex.getMessage());
+        return new ResponseView().error(ex.getMessage());
+    }
 
-        return responseView;
+    @ResponseBody
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = NotFoundException.class)
+    public ResponseView handleNotValidParamException(NotFoundException ex) {
+        return new ResponseView().error(ex.getMessage());
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(value = InstanceAlreadyExistsException.class)
+    public ResponseView handleInstanceAlreadyExistsException(InstanceAlreadyExistsException ex) {
+        return new ResponseView().error(ex.getMessage());
     }
 
     /*@ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = Exception.class)
     public ResponseView handleException(Exception ex) {
-        ResponseView responseView = new ResponseView();
-        responseView.setError(ex.getMessage());
-
-        return responseView;
+        return new ResponseView().error(SERVER_ERROR_MESSAGE);
     }*/
 }

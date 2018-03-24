@@ -18,14 +18,14 @@ INSERT INTO Country (code, name) VALUES (688, 'Республика Сербия
 INSERT INTO Country (code, name) VALUES (724, 'Королевство Испания');
 INSERT INTO Country (code, name) VALUES (8, 'Республика Албания');
 
-INSERT INTO User (login, password, name, is_active) VALUES ('user_1', 'sha-2 hash', 'Антон', true);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_2', 'sha-2 hash', 'Дмитрий', true);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_3', 'sha-2 hash', 'Василий', false);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_4', 'sha-2 hash', 'Олег', true);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_5', 'sha-2 hash', 'Маша', false);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_6', 'sha-2 hash', 'Gerard', false);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_7', 'sha-2 hash', 'Milovan', true);
-INSERT INTO User (login, password, name, is_active) VALUES ('user_8', 'sha-2 hash', 'Albanian', true);
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_1', 'sha-2 hash', 'Антон', true, 'user_1@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_2', 'sha-2 hash', 'Дмитрий', true, 'user_2@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_3', 'sha-2 hash', 'Василий', false, 'user_3@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_4', 'sha-2 hash', 'Олег', true, 'user_4@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_5', 'sha-2 hash', 'Маша', false, 'user_5@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_6', 'sha-2 hash', 'Gerard', false, 'user_6@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_7', 'sha-2 hash', 'Milovan', true, 'user_7@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES ('user_8', 'sha-2 hash', 'Albanian', true, 'user_8@mail.com');
 
 INSERT INTO Activation (code, user_login) VALUES ('some hash code 1', 'user_3');
 INSERT INTO Activation (code, user_login) VALUES ('some hash code 2', 'user_5');

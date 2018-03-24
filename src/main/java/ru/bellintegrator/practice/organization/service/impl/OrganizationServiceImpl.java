@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.organization.service.impl;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -30,12 +31,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseView getAll(ListOrganizationView view) {
+    public List<OrganizationView> getAll(ListOrganizationView view) {
         List<Organization> all = dao.all(view.name, view.inn, view.isActive);
 
         Function<Organization, OrganizationView> mapOrganization = o -> {
             OrganizationView v = new OrganizationView();
-            v.id = String.valueOf(o.getId());
+            v.id = o.getId();
             v.name = o.getName();
             v.isActive = o.getActive();
 
@@ -46,16 +47,16 @@ public class OrganizationServiceImpl implements OrganizationService {
                 .map(mapOrganization)
                 .collect(Collectors.toList());
 
-        return new ResponseView(orgViewsList); // упаковываем список в обертку
+        return orgViewsList;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public ResponseView getOrganizationById(String id) {
-        Organization organization = dao.loadById(id);
+    public OrganizationView getOrganizationById(String id) throws NotFoundException {
+        Organization organization = dao.loadById(Long.valueOf(id));
 
         OrganizationView view = new OrganizationView();
-        view.id = String.valueOf(organization.getId());
+        view.id = organization.getId();
         view.name = organization.getName();
         view.fullName = organization.getFullName();
         view.inn = organization.getInn();
@@ -64,12 +65,12 @@ public class OrganizationServiceImpl implements OrganizationService {
         view.phone = organization.getPhone();
         view.isActive = organization.getActive();
 
-        return new ResponseView(view); // упаковываем объект в обертку
+        return view;
     }
 
     @Override
     @Transactional
-    public ResponseView updateOrganization(UpdateOrganizationView view) {
+    public void updateOrganization(UpdateOrganizationView view) throws NotFoundException {
         Organization organization = dao.loadById(view.id);
 
         if (view.name != null && !view.name.isEmpty())
@@ -92,36 +93,22 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         if (view.isActive != null)
             organization.setActive(view.isActive);
-
-        ResponseView responseView = new ResponseView();
-        responseView.setSuccess("success");
-
-        return responseView; // запись пользователю об успешном измении данных
     }
 
     @Override
     @Transactional
-    public ResponseView saveOrganization(OrganizationView view) {
+    public void saveOrganization(OrganizationView view) {
         Organization organization = new Organization(view.name, view.fullName, view.inn,
                 view.kpp, view.address, view.phone, view.isActive);
 
         dao.save(organization);
-
-        ResponseView responseView = new ResponseView();
-        responseView.setSuccess("success");
-
-        return responseView; // запись пользователю об успешном сохранении организации
     }
 
     @Override
     @Transactional
-    public ResponseView deleteOrganization(DeleteOrganizationView view) {
+    public void deleteOrganization(DeleteOrganizationView view) throws NotFoundException {
         Organization organization = dao.loadById(view.id);
+
         dao.delete(organization);
-
-        ResponseView responseView = new ResponseView();
-        responseView.setSuccess("success");
-
-        return responseView;
     }
 }

@@ -1,35 +1,37 @@
 package ru.bellintegrator.practice.organization.service;
 
-import ru.bellintegrator.practice.ResponseView;
+import javassist.NotFoundException;
 import ru.bellintegrator.practice.organization.view.DeleteOrganizationView;
 import ru.bellintegrator.practice.organization.view.ListOrganizationView;
 import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.organization.view.UpdateOrganizationView;
+
+import java.util.List;
 
 public interface OrganizationService {
 
     /*
     *
      */
-    ResponseView getAll(ListOrganizationView view);
+    List<OrganizationView> getAll(ListOrganizationView view);
 
     /*
     *
      */
-    ResponseView getOrganizationById(String id);
+    OrganizationView getOrganizationById(String id) throws NotFoundException;
 
     /*
     *
      */
-    ResponseView updateOrganization(UpdateOrganizationView view);
+    void updateOrganization(UpdateOrganizationView view) throws NotFoundException;
 
     /*
     *
      */
-    ResponseView saveOrganization(OrganizationView view);
+    void saveOrganization(OrganizationView view);
 
     /*
     *
      */
-    ResponseView deleteOrganization(DeleteOrganizationView view);
+    void deleteOrganization(DeleteOrganizationView view) throws NotFoundException;
 }

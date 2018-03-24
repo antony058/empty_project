@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.user.service.impl;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -7,12 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.user.dao.ActivationDAO;
 import ru.bellintegrator.practice.user.model.Activation;
+import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.service.ActivationService;
-import ru.bellintegrator.practice.user.view.ActivationView;
+import ru.bellintegrator.practice.user.util.StringUtils;
 
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
@@ -26,11 +26,15 @@ public class ActivationServiceImpl implements ActivationService {
 
     @Override
     @Transactional
-    public String checkActivationCode(String code) {
-        Activation activation = dao.checkActivationCode(code);
+    public void activate(String code) throws NotFoundException, NoSuchAlgorithmException {
+        String hashCode = StringUtils.sha256Hex(code);
 
-        activation.getUser().setUserActive(true);
+        Activation activation = dao.loadByCode(hashCode);
+        if (activation == null)
+            throw new NotFoundException("Не верный код");
 
-        return "success";
+        User user = activation.getUser();
+        user.setUserActive(true);
+        user.setActivation(null);
     }
 }

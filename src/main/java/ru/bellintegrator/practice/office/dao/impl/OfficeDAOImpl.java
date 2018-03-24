@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.office.dao.impl;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.bellintegrator.practice.office.dao.OfficeDAO;
@@ -25,14 +26,14 @@ public class OfficeDAOImpl implements OfficeDAO {
     }
 
     @Override
-    public List<Office> allByOrgId(String orgId, String name, String phone, Boolean isActive) {
+    public List<Office> allByOrgId(Long orgId, String name, String phone, Boolean isActive) {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(Office.class);
 
         Root<Office> office = criteriaQuery.from(Office.class);
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(criteriaBuilder.equal(office.join("organization").get("id"), Long.valueOf(orgId)));
+        predicates.add(criteriaBuilder.equal(office.join("organization").get("id"), orgId));
 
         if (name != null && !name.isEmpty())
             predicates.add(criteriaBuilder.like(office.get("name"), "%" + name.trim() + "%"));
@@ -51,8 +52,13 @@ public class OfficeDAOImpl implements OfficeDAO {
     }
 
     @Override
-    public Office loadById(String id) {
-        return em.find(Office.class, Long.valueOf(id));
+    public Office loadById(Long id) throws NotFoundException {
+        Office office = em.find(Office.class, id);
+        if (office == null) {
+            throw new NotFoundException("Офис с id = " + id + " не найден");
+        }
+
+        return office;
     }
 
     @Override

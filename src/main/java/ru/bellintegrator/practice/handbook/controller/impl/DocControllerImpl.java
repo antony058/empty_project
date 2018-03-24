@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.handbook.controller.DocController;
+import ru.bellintegrator.practice.handbook.model.Document;
 import ru.bellintegrator.practice.handbook.service.DocService;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -23,9 +26,10 @@ public class DocControllerImpl implements DocController {
     }
 
     @Override
-    @ApiOperation(value = "getDocs", nickname = "getDocs", httpMethod = "POST")
-    @RequestMapping(value = "/docs", method = {RequestMethod.POST})
+    @ApiOperation(value = "getDocs", nickname = "getDocs", httpMethod = "GET")
+    @RequestMapping(value = "/docs", method = {RequestMethod.GET})
     public ResponseView getDocs() {
-        return docService.getAllDocuments();
+        List<Document> documents = docService.getAllDocuments();
+        return new ResponseView().data(documents);
     }
 }

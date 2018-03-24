@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.employee.controller;
 
+import javassist.NotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,11 +16,11 @@ public interface EmployeeController {
 
     ResponseView getEmployees(@Valid @RequestBody ListEmployeeView view, BindingResult bindingResult);
 
-    ResponseView getEmployee(@PathVariable String id);
+    ResponseView getEmployee(@PathVariable String id) throws NotFoundException;
 
-    ResponseView updateEmployee(@Valid @RequestBody UpdateEmployeeView view, BindingResult bindingResult);
+    ResponseView updateEmployee(@Valid @RequestBody UpdateEmployeeView view, BindingResult bindingResult) throws NotFoundException;
 
-    ResponseView deleteEmployee(@Valid @RequestBody DeleteEmployeeView view, BindingResult bindingResult);
+    ResponseView deleteEmployee(@Valid @RequestBody DeleteEmployeeView view, BindingResult bindingResult) throws NotFoundException;
 
-    ResponseView saveEmployee(@Valid @RequestBody EmployeeView view, BindingResult bindingResult);
+    ResponseView saveEmployee(@Valid @RequestBody EmployeeView view, BindingResult bindingResult) throws NotFoundException;
 }

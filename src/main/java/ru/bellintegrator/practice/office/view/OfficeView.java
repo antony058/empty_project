@@ -2,7 +2,6 @@ package ru.bellintegrator.practice.office.view;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
 

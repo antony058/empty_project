@@ -1,10 +1,12 @@
 package ru.bellintegrator.practice.organization.controller.impl;
 
 import io.swagger.annotations.ApiOperation;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
+import ru.bellintegrator.practice.StringChecker;
 import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.organization.controller.OrganizationController;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
@@ -14,6 +16,8 @@ import ru.bellintegrator.practice.organization.view.OrganizationView;
 import ru.bellintegrator.practice.organization.view.UpdateOrganizationView;
 
 import javax.validation.Valid;
+
+import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -34,43 +38,52 @@ public class OrganizationControllerImpl implements OrganizationController {
         if (bindingResult.hasErrors())
             throw new NotValidParamException("Необходимо заполнить поле name");
 
-        return organizationService.getAll(view);
+        List<OrganizationView> organizationViews = organizationService.getAll(view);
+        return new ResponseView().data(organizationViews);
     }
 
     @Override
     @ApiOperation(value = "getOrganizationById", nickname = "getOrganizationById", httpMethod = "GET")
     @RequestMapping(value = "/{id}", method = {RequestMethod.GET})
-    public ResponseView getOrganizationById(@PathVariable String id) {
-        if (id == null || id.isEmpty()) // custom validation?
+    public ResponseView getOrganizationById(@PathVariable String id) throws NotFoundException {
+        if (StringChecker.isNullOrEmpty(id))
             throw new NotValidParamException("Необходимо заполнить поле id");
+        else if (!StringChecker.isNumeric(id))
+            throw new NotValidParamException("Параметр id должен быть числовым");
 
-        return organizationService.getOrganizationById(id);
+        OrganizationView organizationView = organizationService.getOrganizationById(id);
+        return new ResponseView().data(organizationView);
     }
 
     @Override
     @ApiOperation(value = "updateOrganization", nickname = "updateOrganization", httpMethod = "POST")
     @RequestMapping(value = "/update", method = {RequestMethod.POST})
-    public ResponseView updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult) {
+    public ResponseView updateOrganization(@Valid @RequestBody UpdateOrganizationView view,
+                                           BindingResult bindingResult) throws NotFoundException {
         if (bindingResult.hasErrors())
             throw new NotValidParamException("Необходимо заполнить поле id");
 
-        return organizationService.updateOrganization(view);
+        organizationService.updateOrganization(view);
+        return new ResponseView().success();
     }
 
     @Override
     @ApiOperation(value = "saveOrganization", nickname = "saveOrganization", httpMethod = "POST")
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
     public ResponseView saveOrganization(@RequestBody OrganizationView view) {
-        return organizationService.saveOrganization(view);
+        organizationService.saveOrganization(view);
+        return new ResponseView().success();
     }
 
     @Override
     @ApiOperation(value = "deleteOrganization", nickname = "deleteOrganization", httpMethod = "POST")
     @RequestMapping(value = "/delete", method = {RequestMethod.POST})
-    public ResponseView deleteOrganization(@Valid @RequestBody DeleteOrganizationView view, BindingResult bindingResult) {
+    public ResponseView deleteOrganization(@Valid @RequestBody DeleteOrganizationView view,
+                                           BindingResult bindingResult) throws NotFoundException {
         if (bindingResult.hasErrors())
             throw new NotValidParamException("Необходимо заполнить поле id");
 
-        return organizationService.deleteOrganization(view);
+        organizationService.deleteOrganization(view);
+        return new ResponseView().success();
     }
 }

@@ -1,20 +1,22 @@
 package ru.bellintegrator.practice.office.service;
 
-import ru.bellintegrator.practice.ResponseView;
+import javassist.NotFoundException;
 import ru.bellintegrator.practice.office.view.DeleteOfficeView;
 import ru.bellintegrator.practice.office.view.ListOfficeView;
 import ru.bellintegrator.practice.office.view.OfficeView;
 import ru.bellintegrator.practice.office.view.UpdateOfficeView;
 
+import java.util.List;
+
 public interface OfficeService {
 
-    ResponseView getAllByOrgId(ListOfficeView view);
+    List<OfficeView> getAllByOrgId(ListOfficeView view);
 
-    ResponseView getById(String id);
+    OfficeView getById(String id) throws NotFoundException;
 
-    ResponseView update(UpdateOfficeView view);
+    void update(UpdateOfficeView view) throws NotFoundException;
 
-    ResponseView save(OfficeView view);
+    void save(OfficeView view) throws NotFoundException;
 
-    ResponseView delete(DeleteOfficeView view);
+    void delete(DeleteOfficeView view) throws NotFoundException;
 }

@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.handbook.dao.CountryDAO;
+import ru.bellintegrator.practice.handbook.model.Country;
 import ru.bellintegrator.practice.handbook.service.CountryService;
+
+import java.util.List;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
@@ -21,8 +23,8 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    @Transactional
-    public ResponseView getAllCountries() {
-        return new ResponseView(dao.all());
+    @Transactional(readOnly = true)
+    public List<Country> getAllCountries() {
+        return dao.all();
     }
 }

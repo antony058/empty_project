@@ -1,5 +1,6 @@
 package ru.bellintegrator.practice.organization.controller;
 
+import javassist.NotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,13 +24,13 @@ public interface OrganizationController {
     * Получить Organization по id
     *
      */
-    ResponseView getOrganizationById(@PathVariable String id);
+    ResponseView getOrganizationById(@PathVariable String id) throws NotFoundException;
 
     /*
     * Обновить Organization
     * по входному JSON
      */
-    ResponseView updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult);
+    ResponseView updateOrganization(@Valid @RequestBody UpdateOrganizationView view, BindingResult bindingResult) throws NotFoundException;
 
     /*
     * Сохранить Organization
@@ -41,5 +42,5 @@ public interface OrganizationController {
     * Удалить Organization
     *
      */
-    ResponseView deleteOrganization(@Valid @RequestBody DeleteOrganizationView view, BindingResult bindingResult);
+    ResponseView deleteOrganization(@Valid @RequestBody DeleteOrganizationView view, BindingResult bindingResult) throws NotFoundException;
 }

@@ -1,6 +1,8 @@
 package ru.bellintegrator.practice.user.service.impl;
 
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class UserServiceImpl implements UserService {
+
+    private final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserDAO dao;
 
     @Autowired
@@ -42,15 +46,14 @@ public class UserServiceImpl implements UserService {
           view.password = u.getPassword();
           view.name = u.getName();
           view.isActive = u.getUserActive();
+          view.email = u.getEmail();
 
           return view;
         };
 
-        List<UserView> userViews = all.stream()
+        return all.stream()
                 .map(mapUser)
                 .collect(Collectors.toList());
-
-        return userViews;
     }
 
     @Override
@@ -78,6 +81,8 @@ public class UserServiceImpl implements UserService {
         user.setActivation(activation);
 
         dao.add(user);
+
+        log.info("Зарегистрирован новый пользователь " + user.getLogin());
     }
 
     @Override
@@ -88,10 +93,12 @@ public class UserServiceImpl implements UserService {
 
         User user = dao.loadByLogin(view.getLogin());
         if (user == null)
-            throw new NotFoundException("Пользователь не найден");
+            throw new NotFoundException("Пользователь " + view.getLogin() + " не найден");
 
         String passwordHashCode = StringUtils.sha256Hex(view.getPassword());
         if (!user.getPassword().equals(passwordHashCode))
             throw new NotFoundException("Не верный пароль");
+
+        log.info("Авторизован пользователь " + user.getLogin());
     }
 }

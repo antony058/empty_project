@@ -1,6 +1,8 @@
 package ru.bellintegrator.practice.user.service.impl;
 
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -17,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class ActivationServiceImpl implements ActivationService {
+    private final Logger log = LoggerFactory.getLogger(ActivationServiceImpl.class);
     private final ActivationDAO dao;
 
     @Autowired
@@ -36,5 +39,7 @@ public class ActivationServiceImpl implements ActivationService {
         User user = activation.getUser();
         user.setUserActive(true);
         user.setActivation(null);
+
+        log.info("Активирован пользователь " + user.getLogin());
     }
 }

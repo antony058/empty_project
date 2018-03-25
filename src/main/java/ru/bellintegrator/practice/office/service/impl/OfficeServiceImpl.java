@@ -1,6 +1,8 @@
 package ru.bellintegrator.practice.office.service.impl;
 
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class OfficeServiceImpl implements OfficeService {
+    private final Logger log = LoggerFactory.getLogger(OfficeServiceImpl.class);
 
     private final OfficeDAO dao;
     private final OrganizationDAO orgDAO;
@@ -83,6 +86,8 @@ public class OfficeServiceImpl implements OfficeService {
 
         if (view.isActive != null)
             office.setActive(view.isActive);
+
+        log.info("Изменен офис " + office.getName());
     }
 
     @Override
@@ -98,6 +103,8 @@ public class OfficeServiceImpl implements OfficeService {
         office.setOrganization(organization);
 
         dao.save(office);
+
+        log.info("Добавлен офис " + office.getName() + " в организацию " + organization.getName());
     }
 
     @Override
@@ -106,5 +113,7 @@ public class OfficeServiceImpl implements OfficeService {
         Office office = dao.loadById(view.id);
 
         dao.delete(office);
+
+        log.info("Удален офис " + office.getName());
     }
 }

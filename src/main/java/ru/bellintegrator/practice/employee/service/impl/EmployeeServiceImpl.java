@@ -1,6 +1,8 @@
 package ru.bellintegrator.practice.employee.service.impl;
 
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -30,6 +32,8 @@ import java.util.stream.Collectors;
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
     private final EmployeeDAO dao;
     private final CountryDAO countryDAO;
@@ -61,11 +65,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             return v;
         };
 
-        List<EmployeeView> employeeViews = employees.stream()
+        return employees.stream()
                 .map(mapEmployee)
                 .collect(Collectors.toList());
-
-        return employeeViews;
     }
 
     @Override
@@ -175,6 +177,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             if (isNewDocumentCreated)
                 employee.addEmployeesDocument(employeesDocument);
         }
+
+        log.info("Изменен работник " + employee.getFirstName() + " " + employee.getLastName());
     }
 
     @Override
@@ -190,6 +194,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         dao.delete(employee);
+
+        log.info("Удален работник " + employee.getFirstName() + " " + employee.getLastName());
     }
 
     @Override
@@ -237,5 +243,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         office.addEmployee(employee);
+
+        log.info("Добавлен работник " + employee.getFirstName() + " " + employee.getLastName() +
+                " в офис " + office.getName());
     }
 }

@@ -5,7 +5,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
-import ru.bellintegrator.practice.StringChecker;
+import ru.bellintegrator.practice.utils.StringChecker;
 import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.user.controller.ActivationController;
 import ru.bellintegrator.practice.user.service.ActivationService;

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
-import ru.bellintegrator.practice.StringChecker;
+import ru.bellintegrator.practice.utils.StringChecker;
 import ru.bellintegrator.practice.employee.controller.EmployeeController;
 import ru.bellintegrator.practice.employee.service.EmployeeService;
 import ru.bellintegrator.practice.employee.view.DeleteEmployeeView;

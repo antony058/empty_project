@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.bellintegrator.practice.employee.dao.EmployeeDAO;
+import ru.bellintegrator.practice.employee.mapper.EmployeeMapper;
 import ru.bellintegrator.practice.employee.model.Employee;
 import ru.bellintegrator.practice.employee.model.EmployeesDocument;
 import ru.bellintegrator.practice.employee.service.EmployeeService;
@@ -23,6 +24,7 @@ import ru.bellintegrator.practice.handbook.model.Document;
 import ru.bellintegrator.practice.office.dao.OfficeDAO;
 import ru.bellintegrator.practice.office.model.Office;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -54,20 +56,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<Employee> employees = dao.allByOfficeId(view.officeId, view.firstName, view.lastName, view.middleName,
                 view.position, view.docCode, view.citizenshipCode);
 
-        Function<Employee, EmployeeView> mapEmployee = employee -> {
-            EmployeeView v = new EmployeeView();
-            v.id = employee.getId();
-            v.firstName = employee.getFirstName();
-            v.secondName = employee.getLastName();
-            v.middleName = employee.getMiddleName();
-            v.position = employee.getPosition();
+        List<EmployeeView> views = new ArrayList<>(employees.size());
 
-            return v;
-        };
+        for (Employee employee: employees) {
+            EmployeeView employeeView = EmployeeMapper.mapBaseDataFromEmployee(new EmployeeView(), employee);
+            views.add(employeeView);
+        }
 
-        return employees.stream()
-                .map(mapEmployee)
-                .collect(Collectors.toList());
+        return views;
     }
 
     @Override
@@ -76,30 +72,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = dao.loadById(Long.valueOf(id));
 
         EmployeeView view = new EmployeeView();
-        view.id = employee.getId();
-        view.firstName = employee.getFirstName();
-        view.secondName = employee.getLastName();
-        view.middleName = employee.getMiddleName();
-        view.position = employee.getPosition();
-        view.phone = employee.getPhone();
-        view.isIdentified = employee.getIdentified();
 
-        Country country = employee.getCountry();
-        if (country != null) {
-            view.citizenshipCode = country.getCode();
-            view.citizenshipName = country.getName();
-        }
+        // заполняем view базовой информацией по работнику
+        EmployeeMapper.mapBaseDataFromEmployee(view, employee);
 
-        Set<EmployeesDocument> employeesDocumentSet = employee.getEmployeesDocuments();
-        if (!employeesDocumentSet.isEmpty()) {
-            EmployeesDocument employeesDocument = employeesDocumentSet.iterator().next(); // придумать получше
-            view.docNumber = employeesDocument.getDocNumber();
-            view.docDate = employeesDocument.getDocDate();
+        // заполняем view информацией о стране работника
+        EmployeeMapper.mapCountryFromEmployee(view, employee);
 
-            Document document = employeesDocument.getDocument();
-            if (document != null)
-                view.docName = document.getName();
-        }
+        // заполняем view информацией о документах работника
+        EmployeeMapper.mapDocumentFromEmployee(view, employee);
 
         return view;
     }
@@ -108,24 +89,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void update(UpdateEmployeeView view) throws NotFoundException {
         Employee employee = dao.loadById(view.id);
-
-        if (view.firstName != null && !view.firstName.isEmpty())
-            employee.setFirstName(view.firstName);
-
-        if (view.lastName != null && !view.lastName.isEmpty())
-            employee.setLastName(view.lastName);
-
-        if (view.middleName != null && !view.middleName.isEmpty())
-            employee.setMiddleName(view.middleName);
-
-        if (view.position != null && !view.position.isEmpty())
-            employee.setPosition(view.position);
-
-        if (view.phone != null && !view.phone.isEmpty())
-            employee.setPhone(view.phone);
-
-        if (view.isIdentified != null)
-            employee.setIdentified(view.isIdentified);
+        EmployeeMapper.mapBaseDataFromUpdateEmployeeView(employee, view);
 
         if (view.citizenshipCode != null && view.citizenshipName != null && !view.citizenshipName.isEmpty()) {
             Country country = countryDAO.load(view.citizenshipCode, view.citizenshipName);
@@ -137,31 +101,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         boolean hasDocCode = view.docCode != null;
         boolean hasDocName = view.docName != null && !view.docName.isEmpty();
 
-        /*
-        * Проверяем нужно ли изменять данные связанной таблицы,
-        * чтобы не делать к ней запрос впустую
-        *
-        * Здесь допускается возможность как изменения данных,
-        * так и их добавления, если они не были добавлены ранее.
-        *
-        * Если нам пришел номер документа, или дата документа, или код документа вместе с его названием,
-        * то условие ниже считается истиным(значит пользователь решил изменить эти данные или добавить
-        * их, в случае, если они не были добавлены ранее)
-        *
-         */
         if (mustChangeDocNumber || mustChangeDocDate || hasDocCode && hasDocName) {
-            Set<EmployeesDocument> employeesDocumentSet = employee.getEmployeesDocuments();
-            EmployeesDocument employeesDocument;
-
-            boolean isNewDocumentCreated = false;
-
-            if (!employeesDocumentSet.isEmpty()) {
-                employeesDocument = employeesDocumentSet.iterator().next();
-            }
-            else {
-                employeesDocument = new EmployeesDocument();
-                isNewDocumentCreated = true;
-            }
+            EmployeesDocument employeesDocument = employee.getEmployeesDocuments().iterator().next();
 
             if (mustChangeDocNumber)
                 employeesDocument.setDocNumber(view.docNumber);
@@ -173,9 +114,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 Document document = docDAO.load(view.docCode, view.docName);
                 employeesDocument.setDocument(document);
             }
-
-            if (isNewDocumentCreated)
-                employee.addEmployeesDocument(employeesDocument);
         }
 
         log.info("Изменен работник " + employee.getFirstName() + " " + employee.getLastName());
@@ -204,43 +142,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         Office office = officeDAO.loadById(view.officeId);
 
         Employee employee = new Employee();
-        employee.setFirstName(view.firstName);
-        employee.setLastName(view.secondName);
-        employee.setMiddleName(view.middleName);
-        employee.setPosition(view.position);
-        employee.setPhone(view.phone);
-        employee.setIdentified(view.isIdentified);
+        EmployeeMapper.mapBaseDataFromEmployeeView(employee, view);
 
-        /*
-        * Если пришел код страны и ее название, то ищем такую страну в БД
-        * Если такая страна найдена - добавляем ее работнику
-         */
-        if (view.citizenshipCode != null && view.citizenshipName != null && !view.citizenshipName.isEmpty()) {
-            Country country = countryDAO.load(view.citizenshipCode, view.citizenshipName);
-            employee.setCountry(country);
-        }
+        Country country = countryDAO.load(view.citizenshipCode, view.citizenshipName);
+        employee.setCountry(country);
 
-        /*
-        * Подразумевается, что у пользователя данные документа могут быть не заполнены
-        * Здесь, если пришел номер документа и его дата - добавляем их к документу работника
-        *
-         */
-        if (view.docNumber!= null && !view.docNumber.isEmpty() && view.docDate != null) {
-            EmployeesDocument employeesDocument = new EmployeesDocument();
-            employeesDocument.setDocNumber(view.docNumber);
-            employeesDocument.setDocDate(view.docDate);
+        EmployeesDocument employeesDocument = new EmployeesDocument();
+        employeesDocument.setDocNumber(view.docNumber);
+        employeesDocument.setDocDate(view.docDate);
 
-            /*
-            * Если пришел код документа и его название, то такой документ ищется в БД
-            * Если такой документ найден - он добавляется к документу работника
-            *
-             */
-            if (view.docCode != null && view.docName != null && !view.docName.isEmpty()) {
-                Document document = docDAO.load(view.docCode, view.docName);
-                employeesDocument.setDocument(document);
-            }
-            employee.addEmployeesDocument(employeesDocument);
-        }
+        Document document = docDAO.load(view.docCode, view.docName);
+        employeesDocument.setDocument(document);
+        employee.addEmployeesDocument(employeesDocument);
 
         office.addEmployee(employee);
 

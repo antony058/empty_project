@@ -31,7 +31,7 @@ public class Office {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "org_id")
     private Organization organization;
 

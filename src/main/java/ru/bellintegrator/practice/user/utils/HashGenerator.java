@@ -1,11 +1,11 @@
-package ru.bellintegrator.practice.user.util;
+package ru.bellintegrator.practice.user.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.UUID;
 
-public class StringUtils {
+public class HashGenerator {
 
     public static String sha256Hex(String source_str) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");

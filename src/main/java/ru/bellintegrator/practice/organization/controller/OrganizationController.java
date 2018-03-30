@@ -36,7 +36,7 @@ public interface OrganizationController {
     * Сохранить Organization
     *
      */
-    ResponseView saveOrganization(@RequestBody OrganizationView view);
+    ResponseView saveOrganization(@RequestBody OrganizationView view, BindingResult bindingResult);
 
     /*
     * Удалить Organization

@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice;
+package ru.bellintegrator.practice.utils;
 
 import org.springframework.validation.FieldError;
 
@@ -10,6 +10,8 @@ public class ErrorUtils {
     * Метод формирует строку, содержащую сообщение о том,
     * какие поля не прошли валидацию и по какой причине
     *
+    * Пример выходного сообщения:
+    * "[password не может быть пустым, login не может содержать меньше 5 символов, email не прошел валидацию]"
      */
     public static String makeRequiredFieldsList(List<FieldError> errorList) {
         StringBuilder builder = new StringBuilder();

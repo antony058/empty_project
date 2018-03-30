@@ -1,4 +1,4 @@
-package ru.bellintegrator.practice;
+package ru.bellintegrator.practice.utils;
 
 import org.springframework.util.NumberUtils;
 

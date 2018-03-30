@@ -1,10 +1,11 @@
-package ru.bellintegrator.practice;
+package ru.bellintegrator.practice.exceptionhandler;
 
 import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.exception.NotValidParamException;
 
 import javax.management.InstanceAlreadyExistsException;
@@ -43,12 +44,12 @@ public class ExceptionHandlingController {
         return new ResponseView().error(ex.getMessage());
     }
 
-    /*@ResponseBody
+    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = Throwable.class)
     public ResponseView handleException(Throwable ex) {
         log.error("", ex);
 
         return new ResponseView().error(SERVER_ERROR_MESSAGE);
-    }*/
+    }
 }

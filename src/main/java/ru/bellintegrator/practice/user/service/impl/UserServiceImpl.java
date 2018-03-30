@@ -12,15 +12,12 @@ import ru.bellintegrator.practice.user.dao.UserDAO;
 import ru.bellintegrator.practice.user.model.Activation;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.service.UserService;
-import ru.bellintegrator.practice.user.util.StringUtils;
+import ru.bellintegrator.practice.user.utils.HashGenerator;
 import ru.bellintegrator.practice.user.view.LoginUserView;
 import ru.bellintegrator.practice.user.view.UserView;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Scope(proxyMode = ScopedProxyMode.INTERFACES)
@@ -34,28 +31,6 @@ public class UserServiceImpl implements UserService {
         this.dao = dao;
     }
 
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserView> users() {
-        List<User> all = dao.all();
-
-        Function<User, UserView> mapUser = u -> {
-          UserView view = new UserView();
-          view.login = u.getLogin();
-          view.password = u.getPassword();
-          view.name = u.getName();
-          view.isActive = u.getUserActive();
-          view.email = u.getEmail();
-
-          return view;
-        };
-
-        return all.stream()
-                .map(mapUser)
-                .collect(Collectors.toList());
-    }
-
     @Override
     @Transactional
     public void register(UserView view) throws InstanceAlreadyExistsException, NoSuchAlgorithmException {
@@ -63,16 +38,12 @@ public class UserServiceImpl implements UserService {
         if (user != null)
             throw new InstanceAlreadyExistsException("Пользователь " + view.login + " уже существует");
 
-        String passwordHashCode = StringUtils.sha256Hex(view.password);
+        String passwordHashCode = HashGenerator.sha256Hex(view.password);
 
         user = new User();
-        user.setLogin(view.login);
-        user.setName(view.name);
-        user.setPassword(passwordHashCode);
-        user.setUserActive(false);
-        user.setEmail(view.email);
+        user.setData(view.login, view.name, passwordHashCode, false, view.email);
 
-        String activationHashCode = StringUtils.sha256Hex(StringUtils.generateStringToHash());
+        String activationHashCode = HashGenerator.sha256Hex(HashGenerator.generateStringToHash());
 
         Activation activation = new Activation();
         activation.setCode(activationHashCode);
@@ -95,7 +66,7 @@ public class UserServiceImpl implements UserService {
         if (user == null)
             throw new NotFoundException("Пользователь " + view.getLogin() + " не найден");
 
-        String passwordHashCode = StringUtils.sha256Hex(view.getPassword());
+        String passwordHashCode = HashGenerator.sha256Hex(view.getPassword());
         if (!user.getPassword().equals(passwordHashCode))
             throw new NotFoundException("Не верный пароль");
 

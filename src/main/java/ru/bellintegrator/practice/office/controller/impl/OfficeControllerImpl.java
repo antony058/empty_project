@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
-import ru.bellintegrator.practice.StringChecker;
+import ru.bellintegrator.practice.utils.StringChecker;
 import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.office.controller.OfficeController;
 import ru.bellintegrator.practice.office.service.OfficeService;

@@ -9,8 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public interface UserService {
-    List<UserView> users();
-
     void register(UserView view) throws InstanceAlreadyExistsException, NoSuchAlgorithmException;
 
     void login(LoginUserView view) throws NoSuchAlgorithmException, NotFoundException;

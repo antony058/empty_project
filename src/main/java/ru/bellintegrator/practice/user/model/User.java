@@ -81,4 +81,12 @@ public class User {
     public void setActivation(Activation activation) {
         this.activation = activation;
     }
+
+    public void setData(String login, String name, String passwordHachCode, Boolean isActive, String email) {
+        this.login = login;
+        this.name = name;
+        this.password = passwordHachCode;
+        this.isActive = isActive;
+        this.email = email;
+    }
 }

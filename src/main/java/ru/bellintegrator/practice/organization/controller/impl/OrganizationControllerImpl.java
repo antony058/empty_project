@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.bellintegrator.practice.ResponseView;
-import ru.bellintegrator.practice.StringChecker;
+import ru.bellintegrator.practice.utils.ErrorUtils;
+import ru.bellintegrator.practice.utils.StringChecker;
 import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.organization.controller.OrganizationController;
 import ru.bellintegrator.practice.organization.service.OrganizationService;
@@ -70,7 +71,10 @@ public class OrganizationControllerImpl implements OrganizationController {
     @Override
     @ApiOperation(value = "saveOrganization", nickname = "saveOrganization", httpMethod = "POST")
     @RequestMapping(value = "/save", method = {RequestMethod.POST})
-    public ResponseView saveOrganization(@RequestBody OrganizationView view) {
+    public ResponseView saveOrganization(@Valid @RequestBody OrganizationView view, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
+            throw new NotValidParamException(ErrorUtils.makeRequiredFieldsList(bindingResult.getFieldErrors()));
+
         organizationService.saveOrganization(view);
         return new ResponseView().success();
     }

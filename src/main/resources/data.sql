@@ -1,13 +1,3 @@
-
-
-INSERT INTO Person (id, version, first_name, age) VALUES (1, 0, 'Пётр', 20);
-
-INSERT INTO Person (id, version, first_name, age) VALUES (2, 0, 'John', 25);
-
-INSERT INTO House (id, version, address, person_id) VALUES (1, 0, 'ул.Цюрупы, 16', 1);
-
-INSERT INTO House (id, version, address, person_id) VALUES (2, 0, 'ул.Лунина, 7', 2);
-
 INSERT INTO Document (code, name) VALUES (3, 'Свидетельство о рождении');
 INSERT INTO Document (code, name) VALUES (7, 'Военный билет');
 INSERT INTO Document (code, name) VALUES (10, 'Паспорт иностранного гражданина');
@@ -18,14 +8,29 @@ INSERT INTO Country (code, name) VALUES (688, 'Республика Сербия
 INSERT INTO Country (code, name) VALUES (724, 'Королевство Испания');
 INSERT INTO Country (code, name) VALUES (8, 'Республика Албания');
 
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_1', 'sha-2 hash', 'Антон', true, 'user_1@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_2', 'sha-2 hash', 'Дмитрий', true, 'user_2@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_3', 'sha-2 hash', 'Василий', false, 'user_3@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_4', 'sha-2 hash', 'Олег', true, 'user_4@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_5', 'sha-2 hash', 'Маша', false, 'user_5@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_6', 'sha-2 hash', 'Gerard', false, 'user_6@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_7', 'sha-2 hash', 'Milovan', true, 'user_7@mail.com');
-INSERT INTO User (login, password, name, is_active, email) VALUES ('user_8', 'sha-2 hash', 'Albanian', true, 'user_8@mail.com');
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_1', 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=', 'Антон', true, 'user_1@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_2', 'XohImNooBHFR0OVvjcYpJ3NgPQ1qq73WKhHvch0VQtg=', 'Дмитрий', true, 'user_2@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_3', 'sha-2 hash', 'Василий', false, 'user_3@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_4', 'sha-2 hash', 'Олег', true, 'user_4@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_5', 'sha-2 hash', 'Маша', false, 'user_5@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_6', 'sha-2 hash', 'Gerard', false, 'user_6@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_7', 'sha-2 hash', 'Milovan', true, 'user_7@mail.com');
+
+INSERT INTO User (login, password, name, is_active, email) VALUES
+('user_8', 'sha-2 hash', 'Albanian', true, 'user_8@mail.com');
 
 INSERT INTO Activation (code, user_login) VALUES ('some hash code 1', 'user_3');
 INSERT INTO Activation (code, user_login) VALUES ('some hash code 2', 'user_5');

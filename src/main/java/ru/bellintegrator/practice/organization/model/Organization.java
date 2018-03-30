@@ -74,7 +74,7 @@ public class Organization {
 
     @OneToMany(
             mappedBy = "organization",
-            cascade = CascadeType.ALL,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
             orphanRemoval = true
     )
     private Set<Office> offices;

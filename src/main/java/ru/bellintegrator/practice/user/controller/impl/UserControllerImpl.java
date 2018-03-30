@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import ru.bellintegrator.practice.ErrorUtils;
+import ru.bellintegrator.practice.utils.ErrorUtils;
 import ru.bellintegrator.practice.ResponseView;
 import ru.bellintegrator.practice.exception.NotValidParamException;
 import ru.bellintegrator.practice.user.controller.UserController;
@@ -19,7 +19,6 @@ import ru.bellintegrator.practice.user.view.UserView;
 import javax.management.InstanceAlreadyExistsException;
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -31,14 +30,6 @@ public class UserControllerImpl implements UserController {
     @Autowired
     public UserControllerImpl(UserService userService) {
         this.userService = userService;
-    }
-
-    @Override
-    @ApiOperation(value = "getUsers", nickname = "getUsers", httpMethod = "GET")
-    @RequestMapping(value = "/users", method = {RequestMethod.GET})
-    public ResponseView users() {
-        List<UserView> userViews = userService.users();
-        return new ResponseView().data(userViews);
     }
 
     @Override

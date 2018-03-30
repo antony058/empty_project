@@ -12,7 +12,7 @@ import ru.bellintegrator.practice.user.dao.ActivationDAO;
 import ru.bellintegrator.practice.user.model.Activation;
 import ru.bellintegrator.practice.user.model.User;
 import ru.bellintegrator.practice.user.service.ActivationService;
-import ru.bellintegrator.practice.user.util.StringUtils;
+import ru.bellintegrator.practice.user.utils.HashGenerator;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -30,7 +30,7 @@ public class ActivationServiceImpl implements ActivationService {
     @Override
     @Transactional
     public void activate(String code) throws NotFoundException, NoSuchAlgorithmException {
-        String hashCode = StringUtils.sha256Hex(code);
+        String hashCode = HashGenerator.sha256Hex(code);
 
         Activation activation = dao.loadByCode(hashCode);
         if (activation == null)

@@ -1,19 +1,3 @@
-CREATE TABLE IF NOT EXISTS Person (
-    id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
-    version    INTEGER NOT NULL,
-    first_name VARCHAR(50) NOT NULL,
-    age        INTEGER  NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS House (
-    id         INTEGER  PRIMARY KEY AUTO_INCREMENT,
-    version    INTEGER NOT NULL,
-    address    VARCHAR(50) NOT NULL,
-    person_id INTEGER
-);
-
-ALTER TABLE House ADD FOREIGN KEY (person_id) REFERENCES Person(id);
-
 CREATE TABLE IF NOT EXISTS Document (
     code INTEGER PRIMARY KEY,
     name VARCHAR(90) NOT NULL
@@ -78,11 +62,11 @@ ALTER TABLE Office ADD FOREIGN KEY (org_id) REFERENCES Organization(id);
 CREATE TABLE IF NOT EXISTS Employee (
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50),
     middle_name VARCHAR(50),
-    position VARCHAR(40) NOT NULL,
-    phone VARCHAR(12) NOT NULL,
-    is_identified BOOLEAN NOT NULL,
+    position VARCHAR(40),
+    phone VARCHAR(12),
+    is_identified BOOLEAN,
     version INTEGER DEFAULT 0,
     citizenship_code INTEGER
 );

@@ -12,10 +12,9 @@ import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 
 public interface UserController {
-    ResponseView users();
-
     ResponseView registerUser(@Valid @RequestBody UserView view, BindingResult bindingResult)
             throws InstanceAlreadyExistsException, NoSuchAlgorithmException;
 
-    ResponseView loginUser(@Valid @RequestBody LoginUserView view, BindingResult bindingResult) throws NotFoundException, NoSuchAlgorithmException;
+    ResponseView loginUser(@Valid @RequestBody LoginUserView view, BindingResult bindingResult)
+            throws NotFoundException, NoSuchAlgorithmException;
 }
